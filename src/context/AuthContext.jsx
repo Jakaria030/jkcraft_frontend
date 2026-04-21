@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getProfile, loginUser, logoutUser, registerUser } from "../services/userServices";
+import { getUserProfile, loginUser, logoutUser, registerUser, updateUserProfile } from "../services/userServices";
 
 const AuthContext = createContext(null);
 
@@ -17,13 +17,14 @@ const AuthProvider = ({ children }) => {
             }
 
             try {
-                const res = await getProfile();
-                setUser(res?.data);
+                const res = await getUserProfile();
+                setUser(res?.data?.user);
             } catch {
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
                 setUser(null);
-            } finally {
+            }
+            finally {
                 setAuthLoading(false);
             }
         };
@@ -36,9 +37,12 @@ const AuthProvider = ({ children }) => {
 
         try {
             const res = await registerUser(userData);
-            setUser(res?.data?.data?.user);
+
             localStorage.setItem("accessToken", res?.data?.accessToken);
             localStorage.setItem("refreshToken", res?.data?.refreshToken);
+
+            setUser(res?.data?.user);
+
             return res;
         } finally {
             setAuthLoading(false);
@@ -50,9 +54,12 @@ const AuthProvider = ({ children }) => {
 
         try {
             const res = await loginUser(userData);
-            setUser(res?.data);
+
             localStorage.setItem("accessToken", res?.data?.accessToken);
             localStorage.setItem("refreshToken", res?.data?.refreshToken);
+
+            setUser(res?.data?.user);
+
             return res;
         } finally {
             setAuthLoading(false);
@@ -73,16 +80,12 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, authLoading, register, login, logout }}>
+        <AuthContext.Provider value={{ user, setUser, authLoading, register, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => {
-    const ctx = useContext(AuthContext);
-    if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-    return ctx;
-};
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthProvider;

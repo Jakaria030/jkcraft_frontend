@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --primary-color: #00cd93;
+  --primary-color: #3BC9A2;
+  --color-gray-100: oklch(96.7% 0.003 264.542);
   --color-gray-200: #e5e7eb;
+  --color-gray-400: oklch(70.7% 0.022 261.325);
+  --color-gray-500: oklch(55.1% 0.027 264.364);
   --color-gray-600: lab(35.6337% -1.58697 -10.8425);
   --color-gray-800: lab(16.1051% -1.18239 -11.7533);
   --color-white: #fff;
@@ -10,4 +13,16 @@
 
 body {
   font-family: "Inter", sans-serif;
+}
+
+
+@theme inline {
+  --color-primary: var(--primary-color);
+  --color-gray-100: var(--color-gray-100);
+  --color-gray-200: var(--color-gray-200);
+  --color-gray-400: var(--color-gray-400);
+  --color-gray-500: var(--color-gray-500);
+  --color-gray-600: var(--color-gray-600);
+  --color-gray-800: var(--color-gray-800);
+  --color-white: var(--color-white);
 }

@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router";
 import Spinner from "../components/Spinner";
+import ErrorCard from "../components/ErrorCard";
 
 const Login = () => {
     const { login } = useAuth();
+
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -32,12 +34,10 @@ const Login = () => {
                 navigate("/dashboard");
             }
         } catch (err) {
-            console.log(err)
-            setError(err?.response?.data?.message || "Login failed. Please try again.");
+            setError(err?.response?.data?.message || "Login failed.");
         } finally {
             setLoading(false);
         }
-
     };
 
     const disableButton = !form.email || !form.password;
@@ -62,7 +62,7 @@ const Login = () => {
                             value={form.email}
                             onChange={handleChange}
                             placeholder="Enter your email"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00cd92]"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
@@ -75,7 +75,7 @@ const Login = () => {
                             value={form.password}
                             onChange={handleChange}
                             placeholder="Enter your password"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00cd92]"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
@@ -83,7 +83,7 @@ const Login = () => {
                     <button
                         disabled={disableButton}
                         type="submit"
-                        className={`w-full py-2 rounded-lg text-white font-semibold hover:opacity-90 transition ${!disableButton ? "bg-[#00cd92] cursor-pointer" : "cursor-not-allowed bg-gray-400"}`}
+                        className={`w-full py-2 rounded-md text-white font-semibold hover:opacity-90 transition ${!disableButton ? "bg-primary cursor-pointer" : "cursor-not-allowed bg-gray-400"}`}
                     >
                         {loading ? "Login..." : "Login"}
                     </button>
@@ -91,14 +91,12 @@ const Login = () => {
                 </form>
 
                 {error && (
-                    <p className="text-sm text-red-500 text-center bg-red-50 py-2 rounded-lg">
-                        {error}
-                    </p>
+                    <ErrorCard message={error} />
                 )}
 
                 <p className="text-sm text-gray-500 text-center mt-4">
                     Don’t have an account?{" "}
-                    <Link to={"/register"} className="text-[#00cd92] font-medium">
+                    <Link to={"/register"} className="text-primary font-medium">
                         Register
                     </Link>
                 </p>

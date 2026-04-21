@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router";
+import ErrorCard from "../components/ErrorCard";
 
 const Register = () => {
     const { register } = useAuth();
+
     const [form, setForm] = useState({
         name: "",
         email: "",
         password: "",
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,12 +25,21 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await register(form);
-        if (res.success) {
-            navigate("/dashboard");
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await register(form);
+            if (res.success) {
+                navigate("/dashboard");
+            }
+        } catch (err) {
+            setError(err?.response?.data?.message || "Registration failed.");
+        } finally {
+            setLoading(false);
         }
-
     };
+
+    const disableButton = !form.name || !form.email || !form.password;
 
     return (
         <div className="h-screen flex items-center justify-center bg-gray-100">
@@ -48,7 +61,7 @@ const Register = () => {
                             value={form.name}
                             onChange={handleChange}
                             placeholder="Enter your name"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00cd92]"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
@@ -61,7 +74,7 @@ const Register = () => {
                             value={form.email}
                             onChange={handleChange}
                             placeholder="Enter your email"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00cd92]"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
@@ -74,23 +87,27 @@ const Register = () => {
                             value={form.password}
                             onChange={handleChange}
                             placeholder="Enter your password"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00cd92]"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                     </div>
 
                     {/* Button */}
                     <button
                         type="submit"
-                        className="w-full py-2 rounded-lg text-white font-semibold bg-[#00cd92] hover:opacity-90 transition cursor-pointer"
+                        className={`w-full py-2 rounded-md text-white font-semibold hover:opacity-90 transition ${!disableButton ? "bg-primary cursor-pointer" : "cursor-not-allowed bg-gray-400"}`}
                     >
-                        Register
+                        {loading ? "Register..." : "Register"}
                     </button>
 
                 </form>
 
+                {error && (
+                    <ErrorCard message={error} />
+                )}
+
                 <p className="text-sm text-gray-500 text-center mt-4">
                     Already have an account?{" "}
-                    <Link to={"/"} className="text-[#00cd92] font-medium">
+                    <Link to={"/"} className="text-primary font-medium">
                         Login
                     </Link>
                 </p>

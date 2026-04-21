@@ -15,6 +15,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((response) => response, async (error) => {
     const originalRequest = error.config;
 
+    if (originalRequest.url.includes("/users/login") || originalRequest.url.includes("/users/register")) {
+        return Promise.reject(error);
+    }
     if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
@@ -32,7 +35,7 @@ api.interceptors.response.use((response) => response, async (error) => {
         } catch (err) {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            window.location.href = "/";
+           window.location.href = "/";
         }
     }
 
