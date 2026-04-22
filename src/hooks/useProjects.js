@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createProject, getProjects } from "../services/projectServices";
+import { createProject, deleteProject, getProjects } from "../services/projectServices";
 
 const useProjects = () => {
     const [projects, setProjects] = useState([]);
@@ -30,6 +30,20 @@ const useProjects = () => {
         }
     };
 
+    const handleDeleteProject = async (id) => {
+        try {
+            const res = await deleteProject(id);
+
+            setProjects(prev =>
+                prev.filter(project => project._id !== id)
+            );
+
+            return res;
+        } catch (err) {
+            throw err;
+        }
+    }
+
     useEffect(() => {
         fetchProjects();
     }, []);
@@ -38,7 +52,7 @@ const useProjects = () => {
         projects,
         projectsLoading,
         createProject: handleCreateProject,
-        refetch: fetchProjects,
+        deleteProject: handleDeleteProject,
     };
 };
 

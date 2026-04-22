@@ -44,7 +44,6 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
             onClose();
             navigate(`/editor/${res?.data?._id}`);
         } catch (err) {
-            console.log(err)
             setError(err?.response?.data?.message || "Project create failed.");
         } finally {
             setLoading(false);
@@ -118,7 +117,7 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
                                         <input
                                             type="radio"
                                             name="templateId"
-                                            value={template.currentVersionId}
+                                            value={template.currentVersionId || ""}
                                             checked={form.templateId === template.currentVersionId}
                                             onChange={() => handleTemplateSelect(template.currentVersionId)}
                                             className="hidden"

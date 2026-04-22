@@ -3,16 +3,46 @@ import { formatDateTime } from "../../utils/formatDateTime";
 import Spinner from "../Spinner";
 import defaultThumbnail from "../../assets/thumbnail.jpg";
 import { FiMoreVertical } from "react-icons/fi";
+import { useState } from "react";
+import MenuModal from "./MenuModal";
 
 const Projects = () => {
-    const { projects, projectsLoading } = useProjects();
-
+    const { projects, projectsLoading, deleteProject } = useProjects();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+    const [activeProject, setActiveProject] = useState(null);
 
     if (projectsLoading) {
         return (<div className="h-[calc(100vh-200px)] flex items-center justify-center">
             <Spinner />
         </div>);
     }
+
+    const handleMenuOpen = (e, project) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+
+        const menuWidth = 160;
+
+        let left = rect.left;
+        let top = rect.bottom + 8;
+
+        // adjust if going out of screen
+        if (left + menuWidth > window.innerWidth) {
+            left = window.innerWidth - menuWidth - 10;
+        }
+
+        setMenuPosition({ top, left });
+        setActiveProject(project);
+        setMenuOpen(true);
+    };
+
+    const handleDeleteProject = async (id) => {
+        try {
+            await deleteProject(id);
+        } catch (err) {
+            console.log(err?.response?.data?.message);
+        }
+    };
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -53,6 +83,7 @@ const Projects = () => {
 
 
                                 <button
+                                    onClick={(e) => handleMenuOpen(e, project)}
                                     className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition cursor-pointer">
                                     <FiMoreVertical size={16} />
                                 </button>
@@ -69,6 +100,14 @@ const Projects = () => {
                 ))
             }
 
+            {/* Menu Modal */}
+            <MenuModal
+                isOpen={menuOpen}
+                onClose={() => setMenuOpen(false)}
+                menuPosition={menuPosition}
+                acitveProject={activeProject}
+                onDeleteProject={handleDeleteProject}
+            />
         </div>
     );
 };
