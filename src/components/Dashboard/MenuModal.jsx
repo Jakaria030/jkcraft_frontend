@@ -9,10 +9,10 @@ const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, on
             className="fixed z-50"
             style={{ top: menuPosition.top, left: menuPosition.left }}
         >
-            <div className="w-42 bg-white rounded-lg shadow-lg border border-gray-800">
+            <div className="w-42 bg-white rounded-lg shadow-lg">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-3 py-2 border-b">
+                <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200">
                     <span className="text-sm font-semibold text-gray-700 uppercase">
                         Site settings
                     </span>
@@ -30,7 +30,8 @@ const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, on
 
                     <button
                         onClick={() => {
-                            onSetRenameModal()
+                            onClose();
+                            onSetRenameModal();
                         }}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >

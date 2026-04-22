@@ -6,9 +6,10 @@ import { FiMoreVertical } from "react-icons/fi";
 import { useState } from "react";
 import MenuModal from "./MenuModal";
 import RenameModal from "./RenameModal";
+import { smartTruncate } from "../../utils/smartTruncate";
 
 const Projects = () => {
-    const { projects, projectsLoading, deleteProject } = useProjects();
+    const { projects, projectsLoading, deleteProject, updateProject } = useProjects();
     const [menuOpen, setMenuOpen] = useState(false);
     const [renameModal, setRenameModal] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -25,8 +26,8 @@ const Projects = () => {
 
         const menuWidth = 168;
 
-        let left = rect.left;
-        let top = rect.bottom + 8;
+        let left = rect.left + 35;
+        let top = rect.bottom - 100;
 
         // adjust if going out of screen
         if (left + menuWidth > window.innerWidth) {
@@ -80,7 +81,7 @@ const Projects = () => {
                             {/* Title + Menu */}
                             <div className="flex items-center justify-between">
                                 <h3 className="text-sm font-semibold text-gray-800 truncate">
-                                    {project.name}
+                                    {smartTruncate(project.name, 30)}
                                 </h3>
 
 
@@ -117,6 +118,7 @@ const Projects = () => {
                 isOpen={renameModal}
                 onClose={() => setRenameModal(false)}
                 project={activeProject}
+                onUpdateProject={updateProject}
             />
         </div>
     );

@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
+import { useAuth } from "../../context/AuthContext";
+import ErrorCard from "../ErrorCard";
 
-const RenameModal = ({ isOpen, onClose, project }) => {
+const RenameModal = ({ isOpen, onClose, project, onUpdateProject }) => {
+    const { user } = useAuth();
     const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [slug, setSlug] = useState("");
-    const [slugError, setSlugError] = useState("");
-    const [checking, setChecking] = useState(false);
-
-    const userEmail = "useremail"; // replace with real user email
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (project) {
             setName(project.name);
+            setDescription(project.description);
             setSlug(project.slug);
+            setError(null);
         }
     }, [project]);
 
-    // 🔥 convert name → slug
+    // convert name → slug
     const generateSlug = (value) => {
         return value
             .toLowerCase()
@@ -25,7 +29,7 @@ const RenameModal = ({ isOpen, onClose, project }) => {
             .replace(/[^a-z0-9-]/g, "");
     };
 
-    // 🔹 handle name change
+    // handle name change
     const handleNameChange = (e) => {
         const value = e.target.value;
         setName(value);
@@ -34,53 +38,50 @@ const RenameModal = ({ isOpen, onClose, project }) => {
         setSlug(newSlug);
     };
 
-    // 🔹 handle slug change (manual)
+    // handle slug change
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    };
+
+    // handle slug change
     const handleSlugChange = (e) => {
         const value = generateSlug(e.target.value);
         setSlug(value);
     };
 
-    // 🔹 check slug availability (API placeholder)
-    useEffect(() => {
-        if (!slug) return;
+    // handle submit
+    const handleRenameSubmit = async (id) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await onUpdateProject(id, { name, description, slug });
 
-        const delay = setTimeout(async () => {
-            try {
-                setChecking(true);
-                setSlugError("");
-
-                // 🚀 CALL API HERE
-                // const res = await checkSlugAPI(slug);
-
-                // ❌ Example logic
-                // if (!res.available) {
-                //     setSlugError("This URL is already taken");
-                // }
-
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setChecking(false);
+            if (res.success) {
+                onClose();
             }
-        }, 500); // debounce
-
-        return () => clearTimeout(delay);
-    }, [slug]);
+        } catch (err) {
+            setError(err?.response?.data?.message || "Rename failed")
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (!isOpen) return null;
+
+    const disableButton = !name || !slug;
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-            <div className="bg-white w-full max-w-md rounded-xl shadow-lg">
+            <div className="bg-white w-full max-w-md rounded-lg shadow-lg">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 py-3 border-b">
+                <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200">
                     <h2 className="text-lg font-semibold">Rename Site</h2>
 
                     <button
                         onClick={onClose}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer"
                     >
                         <FiX />
                     </button>
@@ -89,9 +90,9 @@ const RenameModal = ({ isOpen, onClose, project }) => {
                 {/* Body */}
                 <div className="p-5 space-y-4">
 
-                    {/* Name */}
+                    {/* Site Name */}
                     <div>
-                        <label className="text-sm text-gray-600">Name</label>
+                        <label className="text-sm text-gray-600">Site Name</label>
                         <input
                             type="text"
                             value={name}
@@ -100,13 +101,24 @@ const RenameModal = ({ isOpen, onClose, project }) => {
                         />
                     </div>
 
+                    {/* Site Description */}
+                    <div>
+                        <label className="text-sm text-gray-600">Site Description</label>
+                        <textarea
+                            type="text"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-primary outline-none"
+                        />
+                    </div>
+
                     {/* URL */}
                     <div>
                         <label className="text-sm text-gray-600">URL</label>
 
-                        <div className="flex items-center mt-1 border rounded-md overflow-hidden">
-                            <span className="px-3 text-sm text-gray-500 bg-gray-100 border-r">
-                                /{userEmail}/
+                        <div className="flex items-center mt-1 rounded-md overflow-hidden">
+                            <span className="px-3 py-2 text-sm text-gray-500 bg-gray-200 rounded-l-md">
+                                /{user.email}/
                             </span>
 
                             <input
@@ -118,38 +130,29 @@ const RenameModal = ({ isOpen, onClose, project }) => {
                         </div>
 
                         {/* status */}
-                        {checking && (
-                            <p className="text-xs text-gray-500 mt-1">
-                                Checking availability...
-                            </p>
-                        )}
-
-                        {slugError && (
-                            <p className="text-xs text-red-500 mt-1">
-                                {slugError}
-                            </p>
+                        {error && (
+                            <ErrorCard message={error} />
                         )}
                     </div>
 
                 </div>
 
                 {/* Footer */}
-                <div className="flex justify-end gap-2 px-5 py-3 border-t">
+                <div className="flex justify-end gap-2 px-5 py-3 border-t border-gray-200">
 
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 border rounded-md"
+                        className="px-4 py-1.5 border rounded-md cursor-pointer"
                     >
                         Cancel
                     </button>
 
                     <button
-                        // 🔥 SUBMIT API CALL HERE
-                        // onClick={handleRenameSubmit}
-                        disabled={!name || !slug || slugError}
-                        className="px-4 py-2 bg-primary text-white rounded-md disabled:opacity-50"
+                        onClick={() => handleRenameSubmit(project._id)}
+                        disabled={disableButton}
+                        className={`px-4 py-1.5 bg-primary text-white rounded-md disabled:bg-gray-400 ${disableButton ? "cursor-not-allowed" : "cursor-pointer"}`}
                     >
-                        Save
+                        {loading ? "Saving..." : "Save"}
                     </button>
 
                 </div>
