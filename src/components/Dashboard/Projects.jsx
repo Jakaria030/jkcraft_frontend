@@ -5,10 +5,12 @@ import defaultThumbnail from "../../assets/thumbnail.jpg";
 import { FiMoreVertical } from "react-icons/fi";
 import { useState } from "react";
 import MenuModal from "./MenuModal";
+import RenameModal from "./RenameModal";
 
 const Projects = () => {
     const { projects, projectsLoading, deleteProject } = useProjects();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [renameModal, setRenameModal] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
     const [activeProject, setActiveProject] = useState(null);
 
@@ -21,7 +23,7 @@ const Projects = () => {
     const handleMenuOpen = (e, project) => {
         const rect = e.currentTarget.getBoundingClientRect();
 
-        const menuWidth = 160;
+        const menuWidth = 168;
 
         let left = rect.left;
         let top = rect.bottom + 8;
@@ -105,8 +107,16 @@ const Projects = () => {
                 isOpen={menuOpen}
                 onClose={() => setMenuOpen(false)}
                 menuPosition={menuPosition}
-                acitveProject={activeProject}
+                project={activeProject}
                 onDeleteProject={handleDeleteProject}
+                onSetRenameModal={() => setRenameModal(true)}
+            />
+
+            {/* Rename Modal */}
+            <RenameModal
+                isOpen={renameModal}
+                onClose={() => setRenameModal(false)}
+                project={activeProject}
             />
         </div>
     );

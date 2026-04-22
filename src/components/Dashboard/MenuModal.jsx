@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { FiX } from "react-icons/fi";
 
-const MenuModal = ({ isOpen, onClose, menuPosition, acitveProject, onDeleteProject }) => {
-
+const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, onSetRenameModal }) => {
     if (!isOpen) return null;
 
     return (
@@ -9,11 +9,11 @@ const MenuModal = ({ isOpen, onClose, menuPosition, acitveProject, onDeleteProje
             className="fixed z-50"
             style={{ top: menuPosition.top, left: menuPosition.left }}
         >
-            <div className="w-40 bg-white rounded-lg shadow-lg border border-gray-800">
+            <div className="w-42 bg-white rounded-lg shadow-lg border border-gray-800">
 
                 {/* Header */}
                 <div className="flex items-center justify-between px-3 py-2 border-b">
-                    <span className="text-sm font-semibold text-gray-700">
+                    <span className="text-sm font-semibold text-gray-700 uppercase">
                         Site settings
                     </span>
 
@@ -30,12 +30,11 @@ const MenuModal = ({ isOpen, onClose, menuPosition, acitveProject, onDeleteProje
 
                     <button
                         onClick={() => {
-                            onClose()
-                            // open rename modal later
+                            onSetRenameModal()
                         }}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
-                        Rename site
+                        Rename Site
                     </button>
 
                     <button
@@ -45,17 +44,17 @@ const MenuModal = ({ isOpen, onClose, menuPosition, acitveProject, onDeleteProje
                         }}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
-                        Update thumbnail
+                        Update Thumbnail
                     </button>
 
                     <button
                         onClick={() => {
                             onClose()
-                            onDeleteProject(acitveProject._id)
+                            onDeleteProject(project._id)
                         }}
                         className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
                     >
-                        Delete site
+                        Delete Site
                     </button>
 
                 </div>
