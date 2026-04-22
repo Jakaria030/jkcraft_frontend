@@ -1,8 +1,8 @@
 import { useState } from "react";
-import defaultThumbnail from "../assets/thumbnail.jpg";
+import defaultThumbnail from "../../assets/thumbnail.jpg";
 import { FiX } from "react-icons/fi";
-import useTemplatesInfo from "../hooks/useTemplatesInfo";
-import ErrorCard from "./ErrorCard";
+import useTemplatesInfo from "../../hooks/useTemplatesInfo";
+import ErrorCard from "../ErrorCard";
 import { useNavigate } from "react-router";
 
 const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
@@ -105,38 +105,40 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
                             Select Template *
                         </label>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="max-h-72 overflow-y-auto p-2">
+                            <div className="grid grid-cols-2 gap-4">
 
-                            {templatesInfo.map((template) => (
-                                <label
-                                    key={template._id}
-                                    className={`border rounded-lg cursor-pointer overflow-hidden transition 
+                                {templatesInfo.map((template) => (
+                                    <label
+                                        key={template._id}
+                                        className={`border rounded-lg cursor-pointer overflow-hidden transition 
                                         ${form.templateId === template.currentVersionId ? "border-primary ring-2 ring-primary" : "hover:border-gray-400"}`}
-                                >
-                                    {/* hidden radio */}
-                                    <input
-                                        type="radio"
-                                        name="templateId"
-                                        value={template.currentVersionId}
-                                        checked={form.templateId === template.currentVersionId}
-                                        onChange={() => handleTemplateSelect(template.currentVersionId)}
-                                        className="hidden"
-                                    />
+                                    >
+                                        {/* hidden radio */}
+                                        <input
+                                            type="radio"
+                                            name="templateId"
+                                            value={template.currentVersionId}
+                                            checked={form.templateId === template.currentVersionId}
+                                            onChange={() => handleTemplateSelect(template.currentVersionId)}
+                                            className="hidden"
+                                        />
 
-                                    {/* image */}
-                                    <img
-                                        src={template?.thumbnail ? template?.thumbnail : defaultThumbnail}
-                                        alt={template.name}
-                                        className="w-full h-24 object-cover"
-                                    />
+                                        {/* image */}
+                                        <img
+                                            src={template?.thumbnail ? template?.thumbnail : defaultThumbnail}
+                                            alt={template.name}
+                                            className="w-full h-24 object-cover"
+                                        />
 
-                                    {/* name */}
-                                    <div className="p-2 text-sm font-medium text-center">
-                                        {template.name}
-                                    </div>
-                                </label>
-                            ))}
+                                        {/* name */}
+                                        <div className="p-2 text-sm font-medium text-center">
+                                            {template.name}
+                                        </div>
+                                    </label>
+                                ))}
 
+                            </div>
                         </div>
                     </div>
 

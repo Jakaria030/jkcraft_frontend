@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { changeUserPassword, updateUserProfile } from "../services/userServices";
 import ErrorCard from "../components/ErrorCard";
-import UpdateProfile from "../components/UpdateProfile";
-import ChangePassword from "../components/ChangePassword";
+import UpdateProfile from "../components/Settings/UpdateProfile";
+import ChangePassword from "../components/Settings/ChangePassword";
 
 const Settings = () => {
     const { user } = useAuth();

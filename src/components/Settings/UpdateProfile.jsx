@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import ErrorCard from "./ErrorCard";
-import { updateUserProfile } from "../services/userServices";
+import { useAuth } from "../../context/AuthContext";
+import ErrorCard from "../ErrorCard";
+import { updateUserProfile } from "../../services/userServices";
 
 const UpdateProfile = () => {
     const { user, setUser } = useAuth();
