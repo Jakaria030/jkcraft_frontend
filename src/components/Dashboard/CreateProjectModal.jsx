@@ -5,7 +5,7 @@ import useTemplatesInfo from "../../hooks/useTemplatesInfo";
 import ErrorCard from "../ErrorCard";
 import { useNavigate } from "react-router";
 
-const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
+const CreateProjectModal = ({ isOpen, onClose, onCreate, modalFor }) => {
     const { templatesInfo, loadingTemplatesInfo } = useTemplatesInfo();
     const [form, setForm] = useState({
         name: "",
@@ -33,7 +33,7 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
         setLoading(true);
         setError(null);
         try {
-            const res = await onCreate(form);
+            const res = await onCreate({ ...form, projectType: modalFor });
 
             setForm({
                 name: "",
@@ -61,7 +61,7 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
 
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">
-                        Create Project
+                        {modalFor === "template" ? "Create Template" : "Create Project"}
                     </h2>
 
                     <button
@@ -76,7 +76,7 @@ const CreateProjectModal = ({ isOpen, onClose, onCreate }) => {
 
                     {/* Name */}
                     <div>
-                        <label className="text-sm text-gray-600">Project Name *</label>
+                        <label className="text-sm text-gray-600">{modalFor === "template" ? "Template Name *" : "Project Name *"}</label>
                         <input
                             type="text"
                             name="name"
