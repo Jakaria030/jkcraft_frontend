@@ -15,7 +15,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-
 @theme inline {
   --color-primary: var(--primary-color);
   --color-gray-100: var(--color-gray-100);
@@ -25,4 +24,28 @@ body {
   --color-gray-600: var(--color-gray-600);
   --color-gray-800: var(--color-gray-800);
   --color-white: var(--color-white);
+}
+
+/* GrapesJS default UI CSS Override */
+.gjs-toolbar {
+  display: none !important;
+}
+
+.gjs-badge {
+  display: none !important;
+}
+
+.gjs-resizer {
+  display: none !important;
+}
+
+.gjs-cv-canvas {
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: white;
+}
+
+.gjs-rte-toolbar-ui {
+  display: none;
 }
