@@ -8,6 +8,7 @@ import MenuModal from "./MenuModal";
 import RenameModal from "./RenameModal";
 import { smartTruncate } from "../../utils/smartTruncate";
 import ThumbnailModal from "./ThumbnailModal";
+import { useNavigate } from "react-router";
 
 const Projects = () => {
     const { projects, projectsLoading, deleteProject, updateProject, updateThumbnail } = useProjects();
@@ -17,12 +18,16 @@ const Projects = () => {
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
     const [activeProject, setActiveProject] = useState(null);
 
+    const navigate = useNavigate();
+
+    // Loading Project
     if (projectsLoading) {
         return (<div className="h-[calc(100vh-200px)] flex items-center justify-center">
             <Spinner />
         </div>);
     }
 
+    // Handle Open Menu
     const handleMenuOpen = (e, project) => {
         const rect = e.currentTarget.getBoundingClientRect();
 
@@ -41,12 +46,18 @@ const Projects = () => {
         setMenuOpen(true);
     };
 
+    // Handle delete project
     const handleDeleteProject = async (id) => {
         try {
             await deleteProject(id);
         } catch (err) {
             console.log(err?.response?.data?.message);
         }
+    };
+
+    // handle navigate
+    const handleNavigate = (id) => {
+        navigate(`/editor/${id}`);
     };
 
     return (
@@ -65,7 +76,7 @@ const Projects = () => {
                                 {/* Image */}
                                 <div
                                     className="relative group cursor-pointer border-b border-gray-200"
-                                    onClick={() => handleEdit(project._id)}
+                                    onClick={() => handleNavigate(project._id)}
                                 >
                                     <img
                                         src={project?.thumbnail || defaultThumbnail}

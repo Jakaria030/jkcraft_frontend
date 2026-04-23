@@ -6,6 +6,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Settings from "./pages/Settings";
+import Editor from "./pages/Editor";
 
 const App = () => {
 
@@ -32,7 +33,7 @@ const App = () => {
           }
         />
 
-        {/* Private Route - Dashboard */}
+        {/* Private Routes - Dashboard*/}
         <Route
           element={
             <ProtectedRoute>
@@ -44,11 +45,19 @@ const App = () => {
           <Route path="/settings" element={<Settings />} />
         </Route>
 
+        {/* Private Routes - Editor */}
+        <Route
+          path="/editor/:id"
+          element={<ProtectedRoute>
+            <Editor />
+          </ProtectedRoute>}
+        />
+
         {/* Redirect To Dashboard for Unmatch Route */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
 
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 };
 
