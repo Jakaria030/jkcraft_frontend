@@ -19,3 +19,8 @@ export const updateProject = async (id, data) => {
     const res = await api.put(`/projects/${id}`, data);
     return res.data;
 };
+
+export const updateThumbnail = async (id, data) => {
+    const res = await api.put(`/projects/${id}/thumbnail`, data);
+    return res.data;
+};

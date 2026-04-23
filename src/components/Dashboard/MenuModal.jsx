@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiX } from "react-icons/fi";
 
-const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, onSetRenameModal }) => {
+const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, onSetRenameModalOpen, onSetThumbnailModalOpen }) => {
     if (!isOpen) return null;
 
     return (
@@ -31,7 +31,7 @@ const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, on
                     <button
                         onClick={() => {
                             onClose();
-                            onSetRenameModal();
+                            onSetRenameModalOpen();
                         }}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
@@ -40,8 +40,8 @@ const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, on
 
                     <button
                         onClick={() => {
-                            onClose()
-                            // open thumbnail modal later
+                            onClose();
+                            onSetThumbnailModalOpen();
                         }}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
@@ -50,8 +50,8 @@ const MenuModal = ({ isOpen, onClose, menuPosition, project, onDeleteProject, on
 
                     <button
                         onClick={() => {
-                            onClose()
-                            onDeleteProject(project._id)
+                            onClose();
+                            onDeleteProject(project._id);
                         }}
                         className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
                     >

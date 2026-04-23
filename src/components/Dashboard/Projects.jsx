@@ -7,11 +7,13 @@ import { useState } from "react";
 import MenuModal from "./MenuModal";
 import RenameModal from "./RenameModal";
 import { smartTruncate } from "../../utils/smartTruncate";
+import ThumbnailModal from "./ThumbnailModal";
 
 const Projects = () => {
-    const { projects, projectsLoading, deleteProject, updateProject } = useProjects();
+    const { projects, projectsLoading, deleteProject, updateProject, updateThumbnail } = useProjects();
     const [menuOpen, setMenuOpen] = useState(false);
-    const [renameModal, setRenameModal] = useState(false);
+    const [renameModalOpen, setRenameModalOpen] = useState(false);
+    const [thumbnailModalOpen, setThumbnailModalOpen] = useState(false);
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
     const [activeProject, setActiveProject] = useState(null);
 
@@ -62,13 +64,13 @@ const Projects = () => {
                             onClick={() => handleEdit(project._id)}
                         >
                             <img
-                                src={project.image || defaultThumbnail}
+                                src={project?.thumbnail || defaultThumbnail}
                                 alt="project"
                                 className="w-full h-32 object-cover"
                             />
 
                             {/* Overlay */}
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                                 <span className="text-white text-sm font-medium">
                                     Edit Site
                                 </span>
@@ -78,12 +80,11 @@ const Projects = () => {
                         {/* Content */}
                         <div className="p-3 space-y-2">
 
-                            {/* Title + Menu */}
+                            {/* Title and menu icon */}
                             <div className="flex items-center justify-between">
                                 <h3 className="text-sm font-semibold text-gray-800 truncate">
                                     {smartTruncate(project.name, 30)}
                                 </h3>
-
 
                                 <button
                                     onClick={(e) => handleMenuOpen(e, project)}
@@ -109,16 +110,25 @@ const Projects = () => {
                 onClose={() => setMenuOpen(false)}
                 menuPosition={menuPosition}
                 project={activeProject}
+                onSetRenameModalOpen={() => setRenameModalOpen(true)}
+                onSetThumbnailModalOpen={() => setThumbnailModalOpen(true)}
                 onDeleteProject={handleDeleteProject}
-                onSetRenameModal={() => setRenameModal(true)}
             />
 
             {/* Rename Modal */}
             <RenameModal
-                isOpen={renameModal}
-                onClose={() => setRenameModal(false)}
+                isOpen={renameModalOpen}
+                onClose={() => setRenameModalOpen(false)}
                 project={activeProject}
                 onUpdateProject={updateProject}
+            />
+
+            {/* Thumbnail Modal */}
+            <ThumbnailModal
+                isOpen={thumbnailModalOpen}
+                onClose={() => setThumbnailModalOpen(false)}
+                project={activeProject}
+                onUpdateThumbnail={updateThumbnail}
             />
         </div>
     );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createProject, deleteProject, getProjects, updateProject } from "../services/projectServices";
+import { createProject, deleteProject, getProjects, updateProject, updateThumbnail } from "../services/projectServices";
 
 const useProjects = () => {
     const [projects, setProjects] = useState([]);
@@ -30,6 +30,7 @@ const useProjects = () => {
         }
     };
 
+    // delete project
     const handleDeleteProject = async (id) => {
         try {
             const res = await deleteProject(id);
@@ -44,6 +45,24 @@ const useProjects = () => {
         }
     };
 
+    // update thumbnail
+    const handleUpdateThumbnail = async (id, data) => {
+        try {
+            const res = await updateThumbnail(id, data);
+
+            setProjects(prev =>
+                prev.map(project =>
+                    project._id === id ? res.data : project
+                )
+            );
+
+            return res;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // update project
     const handleUpdateProject = async (id, data) => {
         try {
             const res = await updateProject(id, data);
@@ -69,6 +88,7 @@ const useProjects = () => {
         projectsLoading,
         createProject: handleCreateProject,
         deleteProject: handleDeleteProject,
+        updateThumbnail: handleUpdateThumbnail,
         updateProject: handleUpdateProject,
     };
 };
