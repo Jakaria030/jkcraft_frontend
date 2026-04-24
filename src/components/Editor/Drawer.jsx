@@ -1,10 +1,11 @@
 import { FiX } from "react-icons/fi";
+import BlockElements from "./BlockElements";
 
 const Drawer = ({ activePanel, onActivePanel }) => {
     return (
         <div
             className={`bg-white border-r border-gray-200 transition-all duration-300 overflow-hidden
-        ${activePanel ? "w-72" : "w-0"}`}
+        ${activePanel ? "w-90" : "w-0"}`}
         >
             <div>
                 {activePanel === "elements" && (
@@ -19,7 +20,9 @@ const Drawer = ({ activePanel, onActivePanel }) => {
                                 <FiX size={24} />
                             </button>
                         </div>
-                        <p className="text-sm text-gray-500 p-4">Elements list here...</p>
+
+                        {/* Element blocks */}
+                        <BlockElements />
                     </div>
                 )}
 
