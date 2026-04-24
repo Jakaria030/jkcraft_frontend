@@ -1,12 +1,34 @@
 import { FiSave, FiEye } from "react-icons/fi";
 import JKCRAFTLogo from "../../assets/JKCRAFT-logo.png";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import { FaDesktop, FaFileDownload, FaLaptop, FaMobileAlt, FaTabletAlt } from "react-icons/fa";
 import { IoLayersOutline } from "react-icons/io5";
 import { BiRedo, BiUndo } from "react-icons/bi";
 import { GoFileCode } from "react-icons/go";
+import { useEditor } from "../../context/EditorContext";
+import { useState } from "react";
+
+
+// Device group
+const DEVICES = [
+    { id: "desktop", label: "Desktop", icon: <FaDesktop size={16} className="text-gray-600" /> },
+    { id: "laptop", label: "Laptop", icon: <FaLaptop size={16} className="text-gray-600" /> },
+    { id: "tablet", label: "Tablet", icon: <FaTabletAlt size={16} className="text-gray-600" /> },
+    { id: "mobile", label: "Mobile", icon: <FaMobileAlt size={16} className="text-gray-600" /> },
+];
 
 const Topbar = () => {
+    const { editor } = useEditor();
+    const [activeDevice, setActiveDevice] = useState("desktop");
+
+    // Handle device change
+    const handleDeviceChange = (device) => {
+        if (!editor) return;
+
+        editor.setDevice(device);
+        setActiveDevice(device);
+    };
+
     return (
         <div className="w-full h-12 bg-white shadow flex items-center justify-between px-2 border-b border-gray-200">
             <Link to={"/dashboard"} className="w-32 h-auto">
@@ -16,12 +38,12 @@ const Topbar = () => {
             <div className="flex items-center gap-2">
 
                 {/* Undo button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary/50 cursor-pointer transition" title="Undo">
+                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Undo">
                     <BiUndo size={16} className="text-gray-600" />
                 </button>
 
                 {/* Redo button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary/50 cursor-pointer transition" title="Redo">
+                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Redo">
                     <BiRedo size={16} className="text-gray-600" />
                 </button>
 
@@ -29,7 +51,7 @@ const Topbar = () => {
                 <div className="bg-gray-200 w-[1px] h-8"></div>
 
                 {/* Code preview button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary/50 cursor-pointer transition" title="Code Preview">
+                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Code Preview">
                     <GoFileCode size={16} className="text-gray-600" />
                 </button>
 
@@ -37,7 +59,7 @@ const Topbar = () => {
                 <div className="bg-gray-200 w-[1px] h-8"></div>
 
                 {/* Layer button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary/50 cursor-pointer transition" title="Layer">
+                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Layer">
                     <IoLayersOutline size={16} className="text-gray-600" />
                 </button>
 
@@ -55,7 +77,7 @@ const Topbar = () => {
                 </button>
 
                 {/* Export file button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary/50 cursor-pointer transition" title="Export File">
+                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Export File">
                     <FaFileDownload size={16} className="text-gray-600" />
                 </button>
 
@@ -64,25 +86,16 @@ const Topbar = () => {
 
                 {/* Device group */}
                 <div className="bg-gray-200 flex items-center justify-center rounded-md">
-                    {/* Desktop */}
-                    <button className="p-2 rounded hover:bg-primary/50 cursor-pointer transition" title="Desktop">
-                        <FaDesktop size={16} className="text-gray-600" />
-                    </button>
-
-                    {/* Laptop */}
-                    <button className="p-2  rounded hover:bg-primary/50 cursor-pointer transition" title="Laptop">
-                        <FaLaptop size={16} className="text-gray-600" />
-                    </button>
-
-                    {/* Tablet */}
-                    <button className="p-2 rounded hover:bg-primary/50 cursor-pointer transition" title="Tablet">
-                        <FaTabletAlt size={16} className="text-gray-600" />
-                    </button>
-
-                    {/* Mobile */}
-                    <button className="p-2 rounded hover:bg-primary/50 cursor-pointer transition" title="Mobile">
-                        <FaMobileAlt size={16} className="text-gray-600" />
-                    </button>
+                    {
+                        DEVICES.map((device) => (
+                            <button
+                                key={device.id}
+                                onClick={() => handleDeviceChange(device.id)}
+                                className={`p-2 rounded hover:bg-primary cursor-pointer transition ${activeDevice === device.id ? "bg-primary" : ""}`} title={device.label}>
+                                {device.icon}
+                            </button>
+                        ))
+                    }
                 </div>
 
                 {/* Divider */}

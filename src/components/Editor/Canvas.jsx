@@ -1,28 +1,32 @@
 import { useEffect, useRef } from "react";
 import grapesjs from "grapesjs";
+import { useEditor } from "../../context/EditorContext";
 
 const Canvas = () => {
-    const editorRef = useRef(null);
+    const { editor, setEditor } = useEditor();
     const containerRef = useRef(null);
 
     useEffect(() => {
-        if (!editorRef.current) {
-            const editor = grapesjs.init({
+        if (!editor) {
+            const e = grapesjs.init({
                 container: containerRef.current,
                 height: "100%",
+                width: "100%",
                 fromElement: false,
-
                 storageManager: false,
 
-                // remove all default UI
-                panels: { defaults: [] },
+                panels: {
+                    defaults: [],
+                },
 
                 blockManager: {
                     appendTo: null,
+                    blocks: [],
                 },
 
                 styleManager: {
                     appendTo: null,
+                    sectors: [],
                 },
 
                 layerManager: {
@@ -36,14 +40,20 @@ const Canvas = () => {
                 traitManager: {
                     appendTo: null,
                 },
+
+                deviceManager: {
+                    devices: [
+                        { name: "desktop", width: "" },
+                        { name: "laptop", width: "1024px" },
+                        { name: "tablet", width: "768px" },
+                        { name: "mobile", width: "375px" },
+                    ],
+                },
             });
 
-            editorRef.current = editor;
-
-            // expose globally for testing
-            window.editor = editor;
+            setEditor(e);
         }
-    }, []);
+    }, [editor]);
 
     return (
         <div className="h-full w-full">
