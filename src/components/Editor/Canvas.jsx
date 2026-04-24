@@ -1,6 +1,9 @@
-import { useEffect, useRef } from "react";
+import { Component, useEffect, useRef } from "react";
 import grapesjs from "grapesjs";
 import { useEditor } from "../../context/EditorContext";
+import tailwindPlugin from 'grapesjs-tailwindcss-plugin';
+import { addCustomBlocks } from "../../lib/addCustomBlocks";
+
 
 const Canvas = () => {
     const { editor, setEditor } = useEditor();
@@ -49,11 +52,24 @@ const Canvas = () => {
                         { name: "mobile", width: "375px" },
                     ],
                 },
+
+                plugins: [tailwindPlugin],
+                pluginsOpts: {
+                    [tailwindPlugin]: {
+                        autobuild: true,
+                        autocomplete: false,
+                    },
+                },
             });
+
+            // Add custom block add 
+            addCustomBlocks(e);
 
             setEditor(e);
         }
     }, [editor]);
+
+
 
     return (
         <div className="h-full w-full">

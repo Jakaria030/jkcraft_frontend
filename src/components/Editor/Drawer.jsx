@@ -4,7 +4,7 @@ import BlockElements from "./BlockElements";
 const Drawer = ({ activePanel, onActivePanel }) => {
     return (
         <div
-            className={`bg-white border-r border-gray-200 transition-all duration-300 overflow-hidden
+            className={` bg-white border-r border-gray-200 transition-all duration-300 overflow-hidden
         ${activePanel ? "w-90" : "w-0"}`}
         >
             <div>

@@ -6,31 +6,55 @@ import { GrMapLocation } from "react-icons/gr";
 import { RxButton } from "react-icons/rx";
 import { TbColumns1, TbColumns3, TbHeading, TbLayoutColumns } from "react-icons/tb";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
+import { useEditor } from "../../context/EditorContext";
 
 // Block elements
-const BLOCKS = [
-    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" /> },
-    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" /> },
-    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" /> },
-    { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" /> },
-    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" /> },
-    { id: "video", label: "Video", icon: <GoVideo fontSize={28} className="text-gray-600" /> },
-    { id: "map", label: "Map", icon: <GrMapLocation fontSize={28} className="text-gray-600" /> },
-    { id: "container", label: "Container", icon: <PiRectangleLight fontSize={28} className="text-gray-600" /> },
-    { id: "div", label: "Div", icon: <BsFileCode fontSize={28} className="text-gray-600" /> },
-    { id: "col-1", label: "1 Column", icon: <TbColumns1 fontSize={28} className="text-gray-600" /> },
-    { id: "col-2", label: "2 Column", icon: <TbLayoutColumns fontSize={28} className="text-gray-600" /> },
-    { id: "col-3", label: "3 Column", icon: <TbColumns3 fontSize={28} className="text-gray-600" /> },
-    { id: "slider", label: "Slider", icon: <TfiLayoutSliderAlt fontSize={28} className="text-gray-600" /> },
+export const BLOCKS = [
+    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: { type: "my-text" } },
+    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: { type: "my-heading" } },
+    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: { type: "my-link" } },
+    { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" />, content: { type: "my-button" } },
+    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" />, content: { type: "my-image" } },
+    { id: "video", label: "Video", icon: <GoVideo fontSize={28} className="text-gray-600" />, content: { type: "my-video" } },
+    { id: "map", label: "Map", icon: <GrMapLocation fontSize={28} className="text-gray-600" />, content: { type: "my-map" } },
+    { id: "container", label: "Container", icon: <PiRectangleLight fontSize={28} className="text-gray-600" />, content: { type: "my-container" } },
+    { id: "div", label: "Div", icon: <BsFileCode fontSize={28} className="text-gray-600" />, content: { type: "my-div" } },
+    { id: "cols-1", label: "1 Column", icon: <TbColumns1 fontSize={28} className="text-gray-600" />, content: { type: "my-cols-1" } },
+    { id: "cols-2", label: "2 Column", icon: <TbLayoutColumns fontSize={28} className="text-gray-600" />, content: { type: "my-cols-2" } },
+    { id: "cols-3", label: "3 Column", icon: <TbColumns3 fontSize={28} className="text-gray-600" />, content: { type: "my-cols-3" } },
+    { id: "slider", label: "Slider", icon: <TfiLayoutSliderAlt fontSize={28} className="text-gray-600" />, content: { type: "my-slider" } },
 ];
 
 const BlockElements = () => {
+    const { editor } = useEditor();
+
+    if (!editor) return;
+
+    // Block register
+    const bm = editor.BlockManager;
+    BLOCKS.forEach((block) => {
+        bm.add(block.id, { label: block.label, content: block.content });
+    });
+
+    // Handle drag start
+    const handleDragStart = (e, block) => {
+        bm.startDrag(bm.get(block.id));
+    };
+
+    // Handle drag end
+    const handleDragEnd = () => {
+        bm.endDrag();
+    };
+
     return (
         <div className="grid grid-cols-4 gap-x-2 gap-y-4 p-4">
             {BLOCKS.map((block) => (
                 <div
                     key={block.id}
-                    className="flex flex-col items-center cursor-pointer group"
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, block)}
+                    onDragEnd={handleDragEnd}
+                    className="flex flex-col items-center cursor-grab group"
                 >
                     {/* Icon Box */}
                     <div className="w-full aspect-square flex items-center justify-center border border-gray-200 rounded-md group-hover:border-primary group-hover:shadow-sm transition">
