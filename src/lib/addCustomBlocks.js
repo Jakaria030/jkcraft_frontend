@@ -1,70 +1,4 @@
 export const addCustomBlocks = (editor) => {
-    // Text 
-    editor.DomComponents.addType("my-text", {
-        model: {
-            defaults: {
-                tagName: "p",
-                content: "Text here",
-                attributes: {
-                    class: "p1",
-                },
-                draggable: true,
-                droppable: false,
-            },
-        },
-    });
-
-    // Heading
-    editor.DomComponents.addType("my-heading", {
-        model: {
-            defaults: {
-                tagName: "h1",
-                content: "Heading",
-                attributes: {
-                    class: "h1",
-                },
-            },
-        },
-    });
-
-    // Link
-    editor.DomComponents.addType("my-link", {
-        model: {
-            defaults: {
-                tagName: "a",
-                content: "Link",
-                attributes: {
-                    class: "a",
-                },
-            },
-        },
-    });
-
-    // Button
-    editor.DomComponents.addType("my-button", {
-        model: {
-            defaults: {
-                tagName: "button",
-                content: "Click me",
-                attributes: {
-                    class: "btn-primary",
-                },
-            },
-        },
-    });
-
-    // Image
-    editor.DomComponents.addType("my-image", {
-        model: {
-            defaults: {
-                tagName: "img",
-                draggable: true,
-                attributes: {
-                    src: "https://placehold.co/400x200",
-                },
-            },
-        },
-    });
 
     // Video
     editor.DomComponents.addType("my-video", {
@@ -115,6 +49,7 @@ export const addCustomBlocks = (editor) => {
         model: {
             defaults: {
                 tagName: "div",
+                draggable: true,
                 droppable: true,
                 attributes: {
                     class: "main-container",
@@ -150,6 +85,7 @@ export const addCustomBlocks = (editor) => {
         model: {
             defaults: {
                 tagName: "div",
+                draggable: true,
                 droppable: true,
                 style: {
                     display: "flex",
@@ -170,6 +106,7 @@ export const addCustomBlocks = (editor) => {
         model: {
             defaults: {
                 tagName: "div",
+                draggable: true,
                 droppable: true,
                 style: {
                     display: "flex",
@@ -194,6 +131,7 @@ export const addCustomBlocks = (editor) => {
         model: {
             defaults: {
                 tagName: "div",
+                droppable: true,
                 droppable: true,
                 style: {
                     display: "flex",
@@ -255,4 +193,5 @@ export const addCustomBlocks = (editor) => {
             },
         },
     });
+
 };

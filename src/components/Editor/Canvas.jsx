@@ -3,12 +3,15 @@ import grapesjs from "grapesjs";
 import { useEditor } from "../../context/EditorContext";
 import tailwindPlugin from 'grapesjs-tailwindcss-plugin';
 import { addCustomBlocks } from "../../lib/addCustomBlocks";
+import { useProject } from "../../context/ProjectContext";
 
 
 const Canvas = () => {
+    const { project } = useProject();
     const { editor, setEditor } = useEditor();
     const containerRef = useRef(null);
 
+    // Init editor
     useEffect(() => {
         if (!editor) {
             const e = grapesjs.init({
@@ -67,9 +70,14 @@ const Canvas = () => {
 
             setEditor(e);
         }
-    }, [editor]);
+    }, [editor, setEditor]);
 
-
+    // Load project
+    useEffect(() => {
+        if (editor && project) {
+            editor.loadProjectData(project.gjsData);
+        }
+    }, [editor, project]);
 
     return (
         <div className="h-full w-full">

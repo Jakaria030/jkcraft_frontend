@@ -7,6 +7,7 @@ import { BiRedo, BiUndo } from "react-icons/bi";
 import { GoFileCode } from "react-icons/go";
 import { useEditor } from "../../context/EditorContext";
 import { useState } from "react";
+import { useProject } from "../../context/ProjectContext";
 
 
 // Device group
@@ -19,6 +20,7 @@ const DEVICES = [
 
 const Topbar = () => {
     const { editor } = useEditor();
+    const { project, saveProject, isSaving } = useProject();
     const [activeDevice, setActiveDevice] = useState("desktop");
 
     // Handle device change
@@ -27,6 +29,18 @@ const Topbar = () => {
 
         editor.setDevice(device);
         setActiveDevice(device);
+    };
+
+    // Handle save
+    const handleSave = async () => {
+        if (!editor) return;
+        const gjsData = editor.getProjectData();
+
+        try {
+            await saveProject(project._id, { gjsData });
+        } catch (err) {
+            console.log(err?.response?.data?.message);
+        }
     };
 
     return (
@@ -64,8 +78,10 @@ const Topbar = () => {
                 </button>
 
                 {/* Save button */}
-                <button className="text-sm text-gray-600 hover:text-primary cursor-pointer transition">
-                    Save
+                <button
+                    onClick={handleSave}
+                    className={`text-sm text-gray-600 hover:text-primary cursor-pointer transition ${isSaving ? "text-primary" : ""}`}>
+                    {isSaving ? "Saving..." : "Save"}
                 </button>
 
                 {/* Divider */}

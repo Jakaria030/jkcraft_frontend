@@ -10,11 +10,11 @@ import { useEditor } from "../../context/EditorContext";
 
 // Block elements
 export const BLOCKS = [
-    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: { type: "my-text" } },
-    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: { type: "my-heading" } },
-    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: { type: "my-link" } },
-    { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" />, content: { type: "my-button" } },
-    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" />, content: { type: "my-image" } },
+    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: '<p>Edit this text</p>' },
+    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: '<h1>Edit this heading</h1>' },
+    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: '<a href="#">Click here</a>' },
+    { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" />, content: '<button>Click Me</button>', },
+    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" />, content: '<img src="https://placehold.co/400x200" />' },
     { id: "video", label: "Video", icon: <GoVideo fontSize={28} className="text-gray-600" />, content: { type: "my-video" } },
     { id: "map", label: "Map", icon: <GrMapLocation fontSize={28} className="text-gray-600" />, content: { type: "my-map" } },
     { id: "container", label: "Container", icon: <PiRectangleLight fontSize={28} className="text-gray-600" />, content: { type: "my-container" } },
