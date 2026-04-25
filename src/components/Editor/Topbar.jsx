@@ -8,6 +8,7 @@ import { GoFileCode } from "react-icons/go";
 import { useEditor } from "../../context/EditorContext";
 import { useEffect, useRef, useState } from "react";
 import { useProject } from "../../context/ProjectContext";
+import Spinner from "../Spinner";
 
 
 // Device group
@@ -20,7 +21,7 @@ const DEVICES = [
 
 const Topbar = () => {
     const { editor } = useEditor();
-    const { project, saveProject, isSaving } = useProject();
+    const { project, saveProject, isSaving, handleUndo, handleRedo } = useProject();
     const [activeDevice, setActiveDevice] = useState("desktop");
     const lastSavedRef = useRef(null);
     const isSavingRef = useRef(false);
@@ -56,6 +57,7 @@ const Topbar = () => {
         }
     };
 
+    // Auto save
     useEffect(() => {
         if (!editor || !project) return;
 
@@ -66,6 +68,12 @@ const Topbar = () => {
         };
     }, [editor, project]);
 
+    useEffect(() => {
+        if (project?.gjsData) {
+            lastSavedRef.current = JSON.stringify(project.gjsData);
+        }
+    }, [project?.gjsData]);
+
     return (
         <div className="w-full h-12 bg-white shadow flex items-center justify-between px-2 border-b border-gray-200">
             <Link to={"/dashboard"} className="w-32 h-auto">
@@ -75,12 +83,18 @@ const Topbar = () => {
             <div className="flex items-center gap-2">
 
                 {/* Undo button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Undo">
+                <button
+                    onClick={handleUndo}
+                    disabled={!project?.hasUndo}
+                    className={`${project?.hasUndo ? "cursor-pointer hover:bg-primary" : "cursor-not-allowed"} p-2 rounded bg-gray-200 transition`} title="Undo">
                     <BiUndo size={16} className="text-gray-600" />
                 </button>
 
                 {/* Redo button */}
-                <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Redo">
+                <button
+                    onClick={handleRedo}
+                    disabled={!project?.hasRedo}
+                    className={`${project?.hasRedo ? "cursor-pointer hover:bg-primary" : "cursor-not-allowed"} p-2 rounded bg-gray-200 transition`} title="Redo">
                     <BiRedo size={16} className="text-gray-600" />
                 </button>
 
