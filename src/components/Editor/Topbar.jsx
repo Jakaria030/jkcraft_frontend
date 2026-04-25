@@ -6,7 +6,7 @@ import { IoLayersOutline } from "react-icons/io5";
 import { BiRedo, BiUndo } from "react-icons/bi";
 import { GoFileCode } from "react-icons/go";
 import { useEditor } from "../../context/EditorContext";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useProject } from "../../context/ProjectContext";
 
 
@@ -22,6 +22,8 @@ const Topbar = () => {
     const { editor } = useEditor();
     const { project, saveProject, isSaving } = useProject();
     const [activeDevice, setActiveDevice] = useState("desktop");
+    const lastSavedRef = useRef(null);
+    const isSavingRef = useRef(false);
 
     // Handle device change
     const handleDeviceChange = (device) => {
@@ -33,15 +35,36 @@ const Topbar = () => {
 
     // Handle save
     const handleSave = async () => {
-        if (!editor) return;
-        const gjsData = editor.getProjectData();
+        if (!editor || isSavingRef.current) return;
+
+        const currentData = editor.getProjectData();
+        const currentString = JSON.stringify(currentData);
+
+        // avoid duplicate saves
+        if (currentString === lastSavedRef.current) return;
+
+        isSavingRef.current = true;
 
         try {
-            await saveProject(project._id, { gjsData });
+            await saveProject({ gjsData: currentData });
+
+            lastSavedRef.current = currentString;
         } catch (err) {
-            console.log(err?.response?.data?.message);
+            console.error("saveHistory failed", err);
+        } finally {
+            isSavingRef.current = false;
         }
     };
+
+    useEffect(() => {
+        if (!editor || !project) return;
+
+        editor.on("update", handleSave);
+
+        return () => {
+            editor.off("update", handleSave);
+        };
+    }, [editor, project]);
 
     return (
         <div className="w-full h-12 bg-white shadow flex items-center justify-between px-2 border-b border-gray-200">

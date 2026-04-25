@@ -14,7 +14,7 @@ const Editor = () => {
 
     return (
         <EditorProvider>
-            <ProjectProvider id={id} >
+            <ProjectProvider projectId={id} >
                 <div className="h-screen flex flex-col">
 
                     {/* Topbar */}

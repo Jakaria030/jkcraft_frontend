@@ -4,7 +4,7 @@ import { debounce } from "../utils/debounce";
 
 const ProjectContext = createContext(null);
 
-export const ProjectProvider = ({ id, children }) => {
+export const ProjectProvider = ({ projectId, children }) => {
     const [project, setProject] = useState({});
     const [projectLoading, setProjectLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -13,7 +13,7 @@ export const ProjectProvider = ({ id, children }) => {
     const fetchProject = async () => {
         setProjectLoading(true);
         try {
-            const res = await getCurrentVersionProject(id);
+            const res = await getCurrentVersionProject(projectId);
 
             setProject(res.data);
 
@@ -25,10 +25,10 @@ export const ProjectProvider = ({ id, children }) => {
 
     // Handle save project
     const handeSave = useCallback(
-        debounce(async (id, data) => {
+        debounce(async (data) => {
             setIsSaving(true);
             try {
-                const res = await updateCurrentVersionProject(id, data);
+                const res = await updateCurrentVersionProject(projectId, data);
                 setProject(res.data);
             } catch (err) {
                 console.error(err);
@@ -39,7 +39,7 @@ export const ProjectProvider = ({ id, children }) => {
 
     useEffect(() => {
         fetchProject();
-    }, [id]);
+    }, [projectId]);
 
     return (
         <ProjectContext.Provider value={{
