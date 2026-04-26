@@ -11,7 +11,7 @@ const Header = () => {
 
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold text-gray-800">
                     {user?.role === "admin" ? "Your Templates" : "Your Projects"}
                 </h2>

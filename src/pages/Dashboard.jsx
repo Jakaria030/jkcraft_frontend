@@ -3,7 +3,7 @@ import Projects from "../components/Dashboard/Projects";
 
 const Dashboard = () => {
     return (
-        <div className="space-y-6">
+        <div>
             {/* Header */}
             <Header />
 

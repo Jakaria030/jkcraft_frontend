@@ -1,5 +1,29 @@
 export const addCustomBlocks = (editor) => {
 
+    // Button
+    editor.DomComponents.addType("my-button", {
+        extends: "button",
+        model: {
+            defaults: {
+                tagName: "button",
+                components: [
+                    {
+                        type: "text",
+                        content: "Click me",
+                        editable: true,
+                    },
+                ],
+                draggable: true,
+                droppable: false,
+                attributes: {
+                    type: "button",
+                    class: "my-button",
+                    style: "background-color:#3BC9A2; color:#000; padding:8px 16px; border-radius:5px; border:none; cursor:pointer; font-size:16px; font-weight:600;",
+                },
+            },
+        },
+    });
+
     // Video
     editor.DomComponents.addType("my-video", {
         model: {

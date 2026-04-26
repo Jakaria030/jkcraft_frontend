@@ -4,11 +4,12 @@ import { useEditor } from "../../context/EditorContext";
 import tailwindPlugin from 'grapesjs-tailwindcss-plugin';
 import { addCustomBlocks } from "../../lib/addCustomBlocks";
 import { useProject } from "../../context/ProjectContext";
+import ToolbarModal from "./modals/ToolbarModal";
 
 
 const Canvas = () => {
     const { project } = useProject();
-    const { editor, setEditor } = useEditor();
+    const { editor, setEditor, selectedType, setSelectedType } = useEditor();
     const containerRef = useRef(null);
 
     // Init editor
@@ -80,8 +81,16 @@ const Canvas = () => {
     }, [editor, project]);
 
     return (
-        <div className="h-full w-full">
+        <div className="relative h-full w-full">
             <div ref={containerRef} className="h-full w-full" />
+
+            {/* Open toolbar modal */}
+            {selectedType && (
+                <ToolbarModal
+                    type={selectedType}
+                    onClose={() => setSelectedType(null)}
+                />
+            )}
         </div>
     );
 };
