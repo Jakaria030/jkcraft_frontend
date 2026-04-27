@@ -1,15 +1,24 @@
 import { FiArrowLeft } from "react-icons/fi";
 import Row from "./Row";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProject } from "../../../context/ProjectContext";
+
+const DEFAULT_COLORS = {
+    primary: "#3BC9A2",
+    secondary: "#dddddd",
+    background: "#ffffff",
+    text: "#1F2937",
+    accent: "#4B5563",
+};
 
 const Colors = ({ onBack }) => {
-    const [colors, setColors] = useState({
-        primary: "#3BC9A2",
-        secondary: "#dddddd",
-        background: "#ffffff",
-        text: "#1F2937",
-        accent: "#4B5563",
-    });
+    const { project, updateTheme } = useProject();
+    const [isThemeSaving, setIsThemeSaving] = useState(false);
+    const [colors, setColors] = useState(DEFAULT_COLORS);
+
+    useEffect(() => {
+        setColors(project?.theme?.colors ?? colors);
+    }, []);
 
     // Handle color change
     const handleColorChange = (key, value) => {
@@ -17,8 +26,18 @@ const Colors = ({ onBack }) => {
     };
 
     // Handle colors submit
-    const handleSubmit = () => {
-        console.log(colors);
+    const handleSubmit = async () => {
+        const theme = {
+            ...project?.theme,
+            colors,
+        }
+
+        setIsThemeSaving(true);
+        try {
+            await updateTheme({ theme });
+        } finally {
+            setIsThemeSaving(false);
+        }
     };
 
     return (
@@ -68,7 +87,7 @@ const Colors = ({ onBack }) => {
                 <button
                     onClick={handleSubmit}
                     className="w-full bg-primary text-white py-1.5 rounded-md cursor-pointer">
-                    Apply Colors
+                    {isThemeSaving ? "Applying Colors..." : "Apply Colors"}
                 </button>
 
             </div>

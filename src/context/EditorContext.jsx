@@ -10,6 +10,7 @@ export const EditorProvider = ({ children }) => {
         if (!editor) return;
 
         editor.on("component:selected", (component) => {
+            console.log(component)
             const type = component.get("type");
 
             const types = ["text", "link", "my-button", "my-image", "my-video", "my-map", "my-container", "my-cols-1", "my-cols-2", "my-cols-3", "my-div"];

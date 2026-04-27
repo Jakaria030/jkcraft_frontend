@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import Row from "./Row";
+import { useProject } from "../../../context/ProjectContext";
+import { applyThemeToCanvas } from "../../../utils/applyThemeToCanvas";
 
 
 const GOOGLE_FONTS = [
@@ -97,8 +99,15 @@ const HeadingParagraphRow = ({ tag, values, onChange }) => {
 };
 
 const Typography = ({ onBack }) => {
+    const { project, updateTheme } = useProject();
+    const [isThemeSaving, setIsThemeSaving] = useState(false);
     const [fontFamily, setFontFamily] = useState("Inter");
     const [textProperties, setTextProperties] = useState(DEFAULT_TEXTS_PROPERTIES);
+
+    useEffect(() => {
+        setFontFamily(project?.theme?.typography?.fontFamily ?? fontFamily);
+        setTextProperties(project?.theme?.typography?.textProperties ?? textProperties);
+    }, []);
 
     // Handle font family change
     const handleFontFamiliyChange = (e) => {
@@ -114,8 +123,23 @@ const Typography = ({ onBack }) => {
     };
 
     // Handle typography submit
-    const handleSubmit = () => {
-        console.log(fontFamily, textProperties);
+    const handleSubmit = async () => {
+        const typography = {
+            fontFamily,
+            textProperties,
+        };
+
+        const theme = {
+            ...project?.theme,
+            typography,
+        }
+
+        setIsThemeSaving(true);
+        try {
+            await updateTheme({ theme });
+        } finally {
+            setIsThemeSaving(false);
+        }
     };
 
     return (
@@ -152,7 +176,7 @@ const Typography = ({ onBack }) => {
                 </Row>
 
                 {/* Headings label */}
-                <p className="text-sm flex-shrink-0 font-medium text-gray-600">
+                <p className="text-sm shrink-0 font-medium text-gray-600">
                     Headings and Paragraphs
                 </p>
 
@@ -169,7 +193,7 @@ const Typography = ({ onBack }) => {
                 <button
                     onClick={handleSubmit}
                     className="w-full bg-primary text-white py-1.5 rounded-md cursor-pointer">
-                    Apply Typography
+                    {isThemeSaving ? "Applying Typography..." : "Apply Typography"}
                 </button>
 
             </div>

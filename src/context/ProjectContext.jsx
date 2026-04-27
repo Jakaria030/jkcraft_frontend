@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { getCurrentVersionProject, updateCurrentVersionProject } from "../services/versionServices";
+import { getCurrentVersionProject, updateCurrentVersionProject, updateTheme } from "../services/versionServices";
 import { debounce } from "../utils/debounce";
 import { redoProjectState, undoProjectState } from "../services/stateServices";
 
@@ -38,6 +38,15 @@ export const ProjectProvider = ({ projectId, children }) => {
             }
         }), []);
 
+    // Update Theme
+    const handleUpdateTheme = async (data) => {
+        try {
+            const res = await updateTheme(projectId, data);
+            setProject(res.data);
+        } catch (err) {
+            console.error(err?.response?.data?.message);
+        }
+    };
 
     // Handle undo 
     const handleUndo = async () => {
@@ -69,6 +78,7 @@ export const ProjectProvider = ({ projectId, children }) => {
             project,
             projectLoading,
             saveProject: handeSave,
+            updateTheme: handleUpdateTheme,
             isSaving,
             handleUndo,
             handleRedo,

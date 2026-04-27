@@ -10,7 +10,7 @@ import { useEditor } from "../../../context/EditorContext";
 
 // Block elements
 export const BLOCKS = [
-    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: "<p>Edit this text</p>" },
+    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: "<p class='p1'>Edit this text</p>" },
     { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: "<h1>Edit this heading</h1>" },
     { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: "<a href='#'>Click here</a>" },
     { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" />, content: { type: "my-button" } },

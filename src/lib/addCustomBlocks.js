@@ -13,8 +13,11 @@ export const addCustomBlocks = (editor) => {
                 attributes: {
                     type: "button",
                     class: "my-button",
-                    style:
-                        "background-color:#3BC9A2; color:#000; padding:8px 16px; border-radius:5px; border:none; cursor:pointer; font-size:16px; font-weight:600;",
+                },
+
+                style: {
+                    background: "#3BC9A2",
+                    padding: "8px 16px",
                 },
 
                 components: [
@@ -22,7 +25,7 @@ export const addCustomBlocks = (editor) => {
                         type: "text",
                         content: "Click me",
                         editable: true,
-                        selectable: false, 
+                        selectable: false,
                         hoverable: false,
                     },
                 ],
@@ -159,7 +162,7 @@ export const addCustomBlocks = (editor) => {
                 draggable: true,
                 droppable: true,
                 attributes: {
-                    class: "main-container",
+                    class: "my-container",
                 },
                 style: {
                     width: "1440px",
@@ -178,7 +181,7 @@ export const addCustomBlocks = (editor) => {
                 droppable: true,
                 draggable: true,
                 attributes: {
-                    class: "div",
+                    class: "my-div",
                 },
                 style: {
                     width: "100%",

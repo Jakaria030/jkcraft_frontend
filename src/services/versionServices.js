@@ -9,3 +9,8 @@ export const updateCurrentVersionProject = async (id, data) => {
     const res = await api.put(`/versions/${id}`, data);
     return res.data;
 };
+
+export const updateTheme = async (id, data) => {
+    const res = await api.put(`/versions/${id}/theme`, data);
+    return res.data;
+};

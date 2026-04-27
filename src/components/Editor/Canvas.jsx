@@ -5,6 +5,7 @@ import tailwindPlugin from 'grapesjs-tailwindcss-plugin';
 import { addCustomBlocks } from "../../lib/addCustomBlocks";
 import { useProject } from "../../context/ProjectContext";
 import ToolbarModal from "./modals/ToolbarModal";
+import { applyThemeToCanvas } from "../../utils/applyThemeToCanvas";
 
 
 const Canvas = () => {
@@ -77,6 +78,10 @@ const Canvas = () => {
     useEffect(() => {
         if (editor && project) {
             editor.loadProjectData(project.gjsData);
+
+            if (project.theme) {
+                applyThemeToCanvas(editor, project.theme);
+            }
         }
     }, [editor, project]);
 

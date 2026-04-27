@@ -64,6 +64,41 @@ export const applyThemeToCanvas = (editor, theme) => {
                 --color-accent: ${theme.colors.accent};
             }
         `);
+
+        // Button style
+        cssRules.push(`
+            .my-button {
+                padding: 8px 16px;
+                border-radius: 5px;
+                background-color: var(--color-primary);
+                color: var(--color-text);
+            }
+        `);
+
+        // Section style
+        cssRules.push(`
+            .my-section{
+                height: 300px;
+                background-color: var(--color-background);
+            }
+        `);
+
+        // Container style
+        cssRules.push(`
+            .my-container{
+                width: 1440px;
+                height: 300px;
+                background-color: var(--color-secondary);
+            }
+        `);
+
+        // Div style
+        cssRules.push(`
+            .my-div{
+                height: 300px;
+                background-color: var(--color-secondary);
+            }
+        `);
     }
 
     editor.setStyle(cssRules.join("\n"));

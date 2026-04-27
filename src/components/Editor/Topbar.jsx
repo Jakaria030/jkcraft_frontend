@@ -99,7 +99,7 @@ const Topbar = () => {
                 </button>
 
                 {/* Divider */}
-                <div className="bg-gray-200 w-[1px] h-8"></div>
+                <div className="bg-gray-200 w-px h-8"></div>
 
                 {/* Code preview button */}
                 <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Code Preview">
@@ -107,7 +107,7 @@ const Topbar = () => {
                 </button>
 
                 {/* Divider */}
-                <div className="bg-gray-200 w-[1px] h-8"></div>
+                <div className="bg-gray-200 w-px h-8"></div>
 
                 {/* Layer button */}
                 <button className="p-2 rounded bg-gray-200 hover:bg-primary cursor-pointer transition" title="Layer">
@@ -122,7 +122,7 @@ const Topbar = () => {
                 </button>
 
                 {/* Divider */}
-                <div className="bg-gray-200 w-[1px] h-8"></div>
+                <div className="bg-gray-200 w-px h-8"></div>
 
                 {/* Preview Button */}
                 <button className="text-sm text-gray-600 hover:text-primary cursor-pointer transition">
@@ -135,7 +135,7 @@ const Topbar = () => {
                 </button>
 
                 {/* Divider */}
-                <div className="bg-gray-200 w-[1px] h-8"></div>
+                <div className="bg-gray-200 w-px h-8"></div>
 
                 {/* Device group */}
                 <div className="bg-gray-200 flex items-center justify-center rounded-md">
@@ -152,7 +152,7 @@ const Topbar = () => {
                 </div>
 
                 {/* Divider */}
-                <div className="bg-gray-200 w-[1px] h-8"></div>
+                <div className="bg-gray-200 w-px h-8"></div>
 
                 {/* Publish button */}
                 <button
