@@ -148,7 +148,6 @@ export const addCustomBlocks = (editor) => {
                 },
                 style: {
                     height: "300px",
-                    background: "#ddd",
                 },
             },
         },
@@ -167,7 +166,6 @@ export const addCustomBlocks = (editor) => {
                 style: {
                     width: "1440px",
                     height: "300px",
-                    background: "#ddd",
                 },
             },
         },
@@ -186,7 +184,6 @@ export const addCustomBlocks = (editor) => {
                 style: {
                     width: "100%",
                     height: "300px",
-                    background: "#ddd",
                 },
             },
         },
@@ -199,6 +196,9 @@ export const addCustomBlocks = (editor) => {
                 tagName: "div",
                 draggable: true,
                 droppable: true,
+                attributes: {
+                    class: "my-cols-1",
+                },
                 style: {
                     display: "flex",
                     gap: "10px",
@@ -206,7 +206,7 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                 ],
             },
@@ -220,6 +220,9 @@ export const addCustomBlocks = (editor) => {
                 tagName: "div",
                 draggable: true,
                 droppable: true,
+                attributes: {
+                    class: "my-cols-2",
+                },
                 style: {
                     display: "flex",
                     gap: "10px",
@@ -227,11 +230,11 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                 ],
             },
@@ -245,6 +248,9 @@ export const addCustomBlocks = (editor) => {
                 tagName: "div",
                 droppable: true,
                 droppable: true,
+                attributes: {
+                    class: "my-cols-3",
+                },
                 style: {
                     display: "flex",
                     gap: "10px",
@@ -252,15 +258,15 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px", background: "#ddd" },
+                        style: { flex: 1, height: "200px" },
                     },
                 ],
             },
