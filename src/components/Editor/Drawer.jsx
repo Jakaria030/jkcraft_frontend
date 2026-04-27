@@ -1,5 +1,6 @@
 import { FiX } from "react-icons/fi";
-import BlockElements from "./BlockElements";
+import BlockElements from "./drawer/BlockElements";
+import ThemeTypes from "./drawer/ThemeTypes";
 
 const Drawer = ({ activePanel, onActivePanel }) => {
     return (
@@ -45,7 +46,7 @@ const Drawer = ({ activePanel, onActivePanel }) => {
                 {activePanel === "themes" && (
                     <div>
                         <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                            <h2 className="font-semibold">Add Theme</h2>
+                            <h2 className="font-semibold">Theme Settings</h2>
                             <button
                                 onClick={() =>
                                     onActivePanel(null)
@@ -54,7 +55,9 @@ const Drawer = ({ activePanel, onActivePanel }) => {
                                 <FiX size={24} />
                             </button>
                         </div>
-                        <p className="text-sm text-gray-500 p-4">Theme list here...</p>
+
+                        {/* Themes types */}
+                        <ThemeTypes />
                     </div>
                 )}
 

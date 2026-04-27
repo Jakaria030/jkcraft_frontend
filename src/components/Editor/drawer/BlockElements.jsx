@@ -6,7 +6,7 @@ import { GrMapLocation } from "react-icons/gr";
 import { RxButton, RxSection } from "react-icons/rx";
 import { TbColumns1, TbColumns3, TbHeading, TbLayoutColumns } from "react-icons/tb";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
-import { useEditor } from "../../context/EditorContext";
+import { useEditor } from "../../../context/EditorContext";
 
 // Block elements
 export const BLOCKS = [
