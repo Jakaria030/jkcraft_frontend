@@ -24,3 +24,8 @@ export const updateThumbnail = async (id, data) => {
     const res = await api.put(`/projects/${id}/thumbnail`, data);
     return res.data;
 };
+
+export const getCurrentVersionProject = async (projectId) => {
+    const res = await api.get(`/projects/${projectId}`);
+    return res.data;
+};

@@ -7,7 +7,7 @@ const DraggableModal = ({
     title,
     children,
     onClose,
-    width = "250px",
+    width = "220px",
 }) => {
     const modalRef = useRef(null);
 

@@ -3,20 +3,21 @@ import { PiLinkSimpleLight, PiRectangleLight } from "react-icons/pi";
 import { CiImageOn } from "react-icons/ci";
 import { GoVideo } from "react-icons/go";
 import { GrMapLocation } from "react-icons/gr";
-import { RxButton } from "react-icons/rx";
+import { RxButton, RxSection } from "react-icons/rx";
 import { TbColumns1, TbColumns3, TbHeading, TbLayoutColumns } from "react-icons/tb";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
 import { useEditor } from "../../context/EditorContext";
 
 // Block elements
 export const BLOCKS = [
-    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: '<p>Edit this text</p>' },
-    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: '<h1>Edit this heading</h1>' },
-    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: '<a href="#">Click here</a>' },
+    { id: "text", label: "Text", icon: <BsFonts fontSize={28} className="text-gray-600" />, content: "<p>Edit this text</p>" },
+    { id: "heading", label: "Heading", icon: <TbHeading fontSize={28} className="text-gray-600" />, content: "<h1>Edit this heading</h1>" },
+    { id: "link", label: "Link", icon: <PiLinkSimpleLight fontSize={28} className="text-gray-600" />, content: "<a href='#'>Click here</a>" },
     { id: "button", label: "Button", icon: <RxButton fontSize={28} className="text-gray-600" />, content: { type: "my-button" } },
-    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" />, content: '<img src="https://placehold.co/400x200" />' },
+    { id: "image", label: "Image", icon: <CiImageOn fontSize={28} className="text-gray-600" />, content: { type: "my-image" } },
     { id: "video", label: "Video", icon: <GoVideo fontSize={28} className="text-gray-600" />, content: { type: "my-video" } },
     { id: "map", label: "Map", icon: <GrMapLocation fontSize={28} className="text-gray-600" />, content: { type: "my-map" } },
+    { id: "section", label: "Section", icon: <RxSection fontSize={28} className="text-gray-600" />, content: { type: "my-section" } },
     { id: "container", label: "Container", icon: <PiRectangleLight fontSize={28} className="text-gray-600" />, content: { type: "my-container" } },
     { id: "div", label: "Div", icon: <BsFileCode fontSize={28} className="text-gray-600" />, content: { type: "my-div" } },
     { id: "cols-1", label: "1 Column", icon: <TbColumns1 fontSize={28} className="text-gray-600" />, content: { type: "my-cols-1" } },

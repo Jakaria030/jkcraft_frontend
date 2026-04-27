@@ -3,22 +3,53 @@ export const addCustomBlocks = (editor) => {
     // Button
     editor.DomComponents.addType("my-button", {
         extends: "button",
+
         model: {
             defaults: {
                 tagName: "button",
+                draggable: true,
+                droppable: false,
+
+                attributes: {
+                    type: "button",
+                    class: "my-button",
+                    style:
+                        "background-color:#3BC9A2; color:#000; padding:8px 16px; border-radius:5px; border:none; cursor:pointer; font-size:16px; font-weight:600;",
+                },
+
                 components: [
                     {
                         type: "text",
                         content: "Click me",
                         editable: true,
+                        selectable: false, 
+                        hoverable: false,
                     },
                 ],
+            },
+        },
+
+        view: {
+            events: {
+                click: "handleClick",
+            },
+
+            handleClick(e) {
+                e.stopPropagation();
+                this.em.get("Editor").select(this.model);
+            },
+        },
+    });
+
+    // Image
+    editor.DomComponents.addType("my-image", {
+        model: {
+            defaults: {
+                tagName: "img",
                 draggable: true,
                 droppable: false,
                 attributes: {
-                    type: "button",
-                    class: "my-button",
-                    style: "background-color:#3BC9A2; color:#000; padding:8px 16px; border-radius:5px; border:none; cursor:pointer; font-size:16px; font-weight:600;",
+                    src: "https://placehold.co/400x200",
                 },
             },
         },
@@ -28,19 +59,29 @@ export const addCustomBlocks = (editor) => {
     editor.DomComponents.addType("my-video", {
         model: {
             defaults: {
-                tagName: "iframe",
+                tagName: "div",
+                selectable: true,
                 draggable: true,
                 droppable: false,
-                attributes: {
-                    src: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                    frameborder: "0",
-                    allow:
-                        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-                    allowfullscreen: true,
-                },
+
+                components: [
+                    {
+                        tagName: "video",
+                        attributes: {
+                            src: "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
+                            controls: true,
+                        },
+                        style: {
+                            width: "100%",
+                            height: "100%",
+                            "pointer-events": "none",
+                        },
+                    },
+                ],
+
                 style: {
-                    width: "100%",
-                    height: "315px",
+                    width: "600px",
+                    height: "300px",
                 },
             },
         },
@@ -50,19 +91,61 @@ export const addCustomBlocks = (editor) => {
     editor.DomComponents.addType("my-map", {
         model: {
             defaults: {
-                tagName: "iframe",
+                tagName: "div",
                 draggable: true,
                 droppable: false,
+                selectable: true,
+                hoverable: true,
+
                 attributes: {
-                    src: "https://www.google.com/maps/embed?pb=",
-                    width: "100%",
-                    height: "250",
-                    loading: "lazy",
-                    style: "border:0",
+                    class: "my-map-wrapper",
                 },
+
                 style: {
                     width: "100%",
                     height: "250px",
+                    overflow: "hidden",
+                    position: "relative",
+                },
+
+                components: [
+                    {
+                        tagName: "iframe",
+                        attributes: {
+                            src: "https://www.google.com/maps/embed?pb=",
+                            loading: "lazy",
+                        },
+                        style: {
+                            width: "100%",
+                            height: "100%",
+                            border: "0",
+                            "pointer-events": "none",
+                        },
+                    },
+                ],
+            },
+        },
+
+        isComponent: (el) => {
+            if (el.classList?.contains("my-map-wrapper")) {
+                return { type: "my-map" };
+            }
+        },
+    });
+
+    // Section
+    editor.DomComponents.addType("my-section", {
+        model: {
+            defaults: {
+                tagName: "section",
+                draggable: true,
+                droppable: true,
+                attributes: {
+                    class: "my-section",
+                },
+                style: {
+                    height: "300px",
+                    background: "#ddd",
                 },
             },
         },
@@ -79,6 +162,7 @@ export const addCustomBlocks = (editor) => {
                     class: "main-container",
                 },
                 style: {
+                    width: "1440px",
                     height: "300px",
                     background: "#ddd",
                 },
@@ -97,6 +181,7 @@ export const addCustomBlocks = (editor) => {
                     class: "div",
                 },
                 style: {
+                    width: "100%",
                     height: "300px",
                     background: "#ddd",
                 },
@@ -117,7 +202,7 @@ export const addCustomBlocks = (editor) => {
                 },
                 components: [
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                 ],
@@ -138,11 +223,11 @@ export const addCustomBlocks = (editor) => {
                 },
                 components: [
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                 ],
@@ -163,15 +248,15 @@ export const addCustomBlocks = (editor) => {
                 },
                 components: [
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                     {
-                        type: "my-container",
+                        type: "my-div",
                         style: { flex: 1, height: "200px", background: "#ddd" },
                     },
                 ],

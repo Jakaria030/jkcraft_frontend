@@ -12,8 +12,14 @@ export const EditorProvider = ({ children }) => {
         editor.on("component:selected", (component) => {
             const type = component.get("type");
 
-            if (type === "text" || type === "link" || type === "my-button") {
-                setSelectedType(type === "link" ? "text" : type);
+            const types = ["text", "link", "my-button", "my-image", "my-video", "my-map", "my-container", "my-cols-1", "my-cols-2", "my-cols-3", "my-div"];
+            if (types.includes(type)) {
+                let selectedType = null;
+                if (type === "link") selectedType = "text";
+                else if (type === "my-cols-1" || type === "my-cols-2" || type === "my-cols-3") selectedType = "my-container";
+                else selectedType = type;
+
+                setSelectedType(selectedType);
             } else {
                 setSelectedType(null);
             }
