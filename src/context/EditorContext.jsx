@@ -1,16 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const EditorContext = createContext(null);
 
 export const EditorProvider = ({ children }) => {
     const [editor, setEditor] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
+    const [selectedComponent, setSelectedComponent] = useState(null);
 
     useEffect(() => {
         if (!editor) return;
 
         editor.on("component:selected", (component) => {
-            console.log(component)
+            setSelectedComponent(component);
             const type = component.get("type");
 
             const types = ["text", "link", "my-button", "my-image", "my-video", "my-map", "my-container", "my-cols-1", "my-cols-2", "my-cols-3", "my-div"];
@@ -35,6 +36,7 @@ export const EditorProvider = ({ children }) => {
         <EditorContext.Provider value={{
             editor, setEditor,
             selectedType, setSelectedType,
+            selectedComponent, setSelectedComponent,
         }}>
             {children}
         </EditorContext.Provider>

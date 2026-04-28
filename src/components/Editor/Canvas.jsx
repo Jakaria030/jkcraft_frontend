@@ -10,7 +10,7 @@ import { applyThemeToCanvas } from "../../utils/applyThemeToCanvas";
 
 const Canvas = () => {
     const { project } = useProject();
-    const { editor, setEditor, selectedType, setSelectedType } = useEditor();
+    const { editor, setEditor, selectedType, setSelectedType, selectedComponent } = useEditor();
     const containerRef = useRef(null);
 
     // Init editor
@@ -91,6 +91,8 @@ const Canvas = () => {
                 <ToolbarModal
                     type={selectedType}
                     onClose={() => setSelectedType(null)}
+                    project={project}
+                    selectedComponent={selectedComponent}
                 />
             )}
         </div>

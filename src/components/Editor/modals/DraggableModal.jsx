@@ -10,14 +10,17 @@ const DraggableModal = ({
     width = "220px",
 }) => {
     const modalRef = useRef(null);
+    const dragOffset = useRef({ x: 0, y: 0 });
 
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({
+        x: 0,
+        y: 0,
+    });
+
     const [dragging, setDragging] = useState(false);
     const [zIndex, setZIndex] = useState(++modalZIndex);
 
-    const dragOffset = useRef({ x: 0, y: 0 });
-
-    // Center modal on mount
+    // Center on mount
     useEffect(() => {
         if (!modalRef.current) return;
 
@@ -25,33 +28,34 @@ const DraggableModal = ({
         const modalHeight = modalRef.current.offsetHeight;
 
         setPosition({
-            x: (window.innerWidth - modalWidth - 416) / 2,
-            y: (window.innerHeight - modalHeight - 48) / 2,
+            x: (window.innerWidth - modalWidth) / 2,
+            y: (window.innerHeight - modalHeight) / 2,
         });
     }, []);
 
-    // Outside click close
     useEffect(() => {
-        const handleOutsideClick = (e) => {
-            if (
-                modalRef.current &&
-                !modalRef.current.contains(e.target)
-            ) {
-                onClose();
-            }
+        const handleMouseMove = (e) => {
+            if (!dragging) return;
+
+            setPosition({
+                x: e.clientX - dragOffset.current.x,
+                y: e.clientY - dragOffset.current.y,
+            });
         };
 
-        document.addEventListener("mousedown", handleOutsideClick);
+        const handleMouseUp = () => {
+            setDragging(false);
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
 
         return () => {
-            document.removeEventListener(
-                "mousedown",
-                handleOutsideClick
-            );
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
         };
-    }, [onClose]);
+    }, [dragging]);
 
-    // Bring modal to top
     const bringToFront = () => {
         setZIndex(++modalZIndex);
     };
@@ -66,43 +70,28 @@ const DraggableModal = ({
         };
     };
 
-    const handleMouseMove = (e) => {
-        if (!dragging) return;
-
-        setPosition({
-            x: e.clientX - dragOffset.current.x,
-            y: e.clientY - dragOffset.current.y,
-        });
-    };
-
-    const handleMouseUp = () => {
-        setDragging(false);
-    };
-
     return (
         <div
-            className="absolute inset-0"
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
+            className="absolute inset-0 bg-gray-100/30"
+            style={{ zIndex }}
         >
             <div
                 ref={modalRef}
                 onMouseDown={bringToFront}
-                className="absolute max-h-3/4 bg-white rounded shadow-xl border-t-4 border-primary overflow-hidden"
+                className="absolute bg-white rounded shadow-xl border-t-4 border-primary overflow-hidden"
                 style={{
                     width,
                     top: `${position.y}px`,
                     left: `${position.x}px`,
-                    zIndex,
                 }}
             >
                 {/* Header */}
                 <div
                     onMouseDown={handleMouseDown}
-                    className="flex items-center justify-between px-4 py-2 border-b border-gray-200 cursor-move bg-white"
+                    className="flex items-center justify-between px-3 py-2 border-b border-gray-200 cursor-move bg-white"
                 >
                     <h3 className="text-sm font-semibold text-gray-800">
-                        {title}
+                        {title?.toUpperCase()}
                     </h3>
 
                     <button
@@ -114,7 +103,7 @@ const DraggableModal = ({
                 </div>
 
                 {/* Body */}
-                <div className="p-2">
+                <div className="p-2 max-h-[500px] overflow-y-auto">
                     {children}
                 </div>
             </div>

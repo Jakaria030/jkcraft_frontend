@@ -4,14 +4,8 @@ import { useEffect, useState } from "react";
 import { useProject } from "../../../context/ProjectContext";
 import { applyThemeToCanvas } from "../../../utils/applyThemeToCanvas";
 import { useEditor } from "../../../context/EditorContext";
+import { DEFAULT_COLORS } from "../../../constant/constant";
 
-const DEFAULT_COLORS = {
-    primary: "#3BC9A2",
-    secondary: "#dddddd",
-    background: "#ffffff",
-    text: "#1F2937",
-    accent: "#4B5563",
-};
 
 const Colors = ({ onBack }) => {
     const { project, updateTheme, saveProject } = useProject();
