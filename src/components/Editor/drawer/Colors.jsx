@@ -2,6 +2,8 @@ import { FiArrowLeft } from "react-icons/fi";
 import Row from "./Row";
 import { useEffect, useState } from "react";
 import { useProject } from "../../../context/ProjectContext";
+import { applyThemeToCanvas } from "../../../utils/applyThemeToCanvas";
+import { useEditor } from "../../../context/EditorContext";
 
 const DEFAULT_COLORS = {
     primary: "#3BC9A2",
@@ -12,7 +14,8 @@ const DEFAULT_COLORS = {
 };
 
 const Colors = ({ onBack }) => {
-    const { project, updateTheme } = useProject();
+    const { project, updateTheme, saveProject } = useProject();
+    const { editor } = useEditor();
     const [isThemeSaving, setIsThemeSaving] = useState(false);
     const [colors, setColors] = useState(DEFAULT_COLORS);
 
@@ -32,12 +35,17 @@ const Colors = ({ onBack }) => {
             colors,
         }
 
+        applyThemeToCanvas(editor, theme);
+        const gjsData = editor.getProjectData();
+
         setIsThemeSaving(true);
         try {
+            await saveProject({ gjsData });
             await updateTheme({ theme });
         } finally {
             setIsThemeSaving(false);
         }
+
     };
 
     return (

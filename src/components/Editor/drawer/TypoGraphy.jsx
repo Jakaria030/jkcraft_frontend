@@ -3,6 +3,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import Row from "./Row";
 import { useProject } from "../../../context/ProjectContext";
 import { applyThemeToCanvas } from "../../../utils/applyThemeToCanvas";
+import { useEditor } from "../../../context/EditorContext";
 
 
 const GOOGLE_FONTS = [
@@ -99,7 +100,8 @@ const HeadingParagraphRow = ({ tag, values, onChange }) => {
 };
 
 const Typography = ({ onBack }) => {
-    const { project, updateTheme } = useProject();
+    const { project, updateTheme, saveProject } = useProject();
+    const { editor } = useEditor();
     const [isThemeSaving, setIsThemeSaving] = useState(false);
     const [fontFamily, setFontFamily] = useState("Inter");
     const [textProperties, setTextProperties] = useState(DEFAULT_TEXTS_PROPERTIES);
@@ -134,8 +136,12 @@ const Typography = ({ onBack }) => {
             typography,
         }
 
+        applyThemeToCanvas(editor, theme)
+        const gjsData = editor.getProjectData();
+
         setIsThemeSaving(true);
         try {
+            await saveProject({ gjsData });
             await updateTheme({ theme });
         } finally {
             setIsThemeSaving(false);

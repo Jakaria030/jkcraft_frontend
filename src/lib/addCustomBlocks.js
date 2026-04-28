@@ -15,11 +15,6 @@ export const addCustomBlocks = (editor) => {
                     class: "my-button",
                 },
 
-                style: {
-                    background: "#3BC9A2",
-                    padding: "8px 16px",
-                },
-
                 components: [
                     {
                         type: "text",
@@ -206,7 +201,8 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                 ],
             },
@@ -230,11 +226,13 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                 ],
             },
@@ -258,15 +256,18 @@ export const addCustomBlocks = (editor) => {
                 components: [
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                     {
                         type: "my-div",
-                        style: { flex: 1, height: "200px" },
+                        attributes: { class: "my-div" },
+                        style: { flex: 1, height: "300px" },
                     },
                 ],
             },

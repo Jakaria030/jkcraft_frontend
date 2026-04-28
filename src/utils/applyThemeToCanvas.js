@@ -1,9 +1,12 @@
 export const applyThemeToCanvas = (editor, theme) => {
     if (!editor || !theme) return;
 
+    const css = editor.Css;
+
     // Load Google Font into canvas iframe
     if (theme.typography?.fontFamily) {
         const fontFamily = theme.typography.fontFamily;
+
         const fontHref = `https://fonts.googleapis.com/css2?family=${fontFamily.replace(
             / /g,
             "+"
@@ -25,81 +28,72 @@ export const applyThemeToCanvas = (editor, theme) => {
         }
     }
 
-    const cssRules = [];
-
     // Typography
+    // ---------------------------
     if (theme.typography) {
         const { fontFamily, textProperties } = theme.typography;
 
-        cssRules.push(`
-            body {
-                font-family: '${fontFamily}', sans-serif;
-            }
-        `);
+        css.setRule('body', {
+            'font-family': `'${fontFamily}', sans-serif`,
+        });
 
-        Object.entries(textProperties).forEach(([tag, values]) => {
-            const selector = tag.startsWith("p")
-                ? `.${tag}`
-                : tag;
+        if (textProperties) {
+            Object.entries(textProperties).forEach(([tag, values]) => {
+                const selector = tag.startsWith("p")
+                    ? `.${tag}`
+                    : tag;
 
-            cssRules.push(`
-                ${selector} {
-                    font-size: ${values.fontSize}px;
-                    font-weight: ${values.fontWeight};
-                    line-height: ${values.lineHeight};
-                    color: ${values.color};
-                }
-            `);
+                css.setRule(selector, {
+                    'font-size': `${values.fontSize}px`,
+                    'font-weight': values.fontWeight,
+                    'line-height': values.lineHeight,
+                    color: values.color,
+                });
+            });
+        }
+    }
+
+    // Colors (CSS Variables)
+    if (theme.colors) {
+        css.setRule(':root', {
+            '--color-primary': theme.colors.primary,
+            '--color-secondary': theme.colors.secondary,
+            '--color-background': theme.colors.background,
+            '--color-text': theme.colors.text,
+            '--color-accent': theme.colors.accent,
+        });
+
+        // Button
+        css.setRule('.my-button', {
+            padding: '8px 16px',
+            'border-radius': '5px',
+            'background-color': 'var(--color-primary)',
+            color: 'var(--color-text)',
+        });
+
+        // Section
+        css.setRule('.my-section', {
+            height: '300px',
+            'background-color': 'var(--color-background)',
+        });
+
+        // Container
+        css.setRule('.my-container', {
+            width: '1440px',
+            height: '300px',
+            'background-color': 'var(--color-secondary)',
+        });
+
+        // Div
+        css.setRule('.my-div', {
+            height: '300px',
+            'background-color': 'var(--color-secondary)',
+        });
+
+        // Columns
+        css.setRule('.my-cols-1, .my-cols-2, .my-cols-3', {
+            display: 'flex',
+            gap: '10px',
         });
     }
-
-    // Colors
-    if (theme.colors) {
-        cssRules.push(`
-            :root {
-                --color-primary: ${theme.colors.primary};
-                --color-secondary: ${theme.colors.secondary};
-                --color-background: ${theme.colors.background};
-                --color-text: ${theme.colors.text};
-                --color-accent: ${theme.colors.accent};
-            }
-        `);
-
-        // Button style
-        cssRules.push(`
-            .my-button {
-                padding: 8px 16px;
-                border-radius: 5px;
-                background-color: var(--color-primary);
-                color: var(--color-text);
-            }
-        `);
-
-        // Section style
-        cssRules.push(`
-            .my-section{
-                height: 300px;
-                background-color: var(--color-background);
-            }
-        `);
-
-        // Container style
-        cssRules.push(`
-            .my-container{
-                width: 1440px;
-                height: 300px;
-                background-color: var(--color-secondary);
-            }
-        `);
-
-        // Div style
-        cssRules.push(`
-            .my-div{
-                height: 300px;
-                background-color: var(--color-secondary);
-            }
-        `);
-    }
-
-    editor.setStyle(cssRules.join("\n"));
 };

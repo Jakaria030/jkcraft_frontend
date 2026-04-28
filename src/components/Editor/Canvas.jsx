@@ -76,14 +76,11 @@ const Canvas = () => {
 
     // Load project
     useEffect(() => {
-        if (editor && project) {
-            editor.loadProjectData(project.gjsData);
+        if (!editor || !project?.gjsData) return;
 
-            if (project.theme) {
-                applyThemeToCanvas(editor, project.theme);
-            }
-        }
-    }, [editor, project]);
+        editor.loadProjectData(project.gjsData);
+    }, [editor, project?.gjsData]);
+
 
     return (
         <div className="relative h-full w-full">

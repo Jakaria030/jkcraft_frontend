@@ -41,8 +41,7 @@ export const ProjectProvider = ({ projectId, children }) => {
     // Update Theme
     const handleUpdateTheme = async (data) => {
         try {
-            const res = await updateTheme(projectId, data);
-            setProject(res.data);
+            await updateTheme(projectId, data);
         } catch (err) {
             console.error(err?.response?.data?.message);
         }
