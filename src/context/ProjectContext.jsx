@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { getCurrentVersionProject, updateCurrentVersionProject, updateTheme } from "../services/versionServices";
+import { getCurrentVersionProject, updateCurrentVersionProject, updateFont, updateTheme } from "../services/versionServices";
 import { debounce } from "../utils/debounce";
 import { redoProjectState, undoProjectState } from "../services/stateServices";
 
@@ -47,6 +47,15 @@ export const ProjectProvider = ({ projectId, children }) => {
         }
     };
 
+    // Update fonts
+    const handleUpdateFont = async (data) => {
+        try {
+            await updateFont(projectId, data);
+        } catch (err) {
+            console.error(err?.response?.data?.message);
+        }
+    };
+
     // Handle undo 
     const handleUndo = async () => {
         try {
@@ -81,6 +90,7 @@ export const ProjectProvider = ({ projectId, children }) => {
             isSaving,
             handleUndo,
             handleRedo,
+            updateFont: handleUpdateFont,
         }}>
             {children}
         </ProjectContext.Provider>

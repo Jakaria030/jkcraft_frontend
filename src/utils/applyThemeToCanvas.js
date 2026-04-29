@@ -1,3 +1,5 @@
+import { loadGoogleFont } from "./loadGoogleFont";
+
 export const applyThemeToCanvas = (editor, theme) => {
     if (!editor || !theme) return;
 
@@ -7,25 +9,7 @@ export const applyThemeToCanvas = (editor, theme) => {
     if (theme.typography?.fontFamily) {
         const fontFamily = theme.typography.fontFamily;
 
-        const fontHref = `https://fonts.googleapis.com/css2?family=${fontFamily.replace(
-            / /g,
-            "+"
-        )}:wght@300;400;500;600;700;800&display=swap`;
-
-        const canvasDoc = editor.Canvas.getDocument();
-
-        const existing = canvasDoc.querySelector(
-            `link[data-font="${fontFamily}"]`
-        );
-
-        if (!existing) {
-            const link = canvasDoc.createElement("link");
-            link.rel = "stylesheet";
-            link.href = fontHref;
-            link.setAttribute("data-font", fontFamily);
-
-            canvasDoc.head.appendChild(link);
-        }
+        loadGoogleFont(editor, fontFamily);
     }
 
     // Typography

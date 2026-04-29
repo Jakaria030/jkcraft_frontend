@@ -58,15 +58,15 @@ const Topbar = () => {
     };
 
     // Auto save
-    useEffect(() => {
-        if (!editor || !project) return;
+    // useEffect(() => {
+    //     if (!editor || !project) return;
 
-        editor.on("update", handleSave);
+    //     editor.on("update", handleSave);
 
-        return () => {
-            editor.off("update", handleSave);
-        };
-    }, [editor, project]);
+    //     return () => {
+    //         editor.off("update", handleSave);
+    //     };
+    // }, [editor, project]);
 
     useEffect(() => {
         if (project?.gjsData) {

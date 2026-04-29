@@ -6,10 +6,11 @@ import { addCustomBlocks } from "../../lib/addCustomBlocks";
 import { useProject } from "../../context/ProjectContext";
 import ToolbarModal from "./modals/ToolbarModal";
 import { applyThemeToCanvas } from "../../utils/applyThemeToCanvas";
+import { loadGoogleFont } from "../../utils/loadGoogleFont";
 
 
 const Canvas = () => {
-    const { project } = useProject();
+    const { project, updateFont } = useProject();
     const { editor, setEditor, selectedType, setSelectedType, selectedComponent } = useEditor();
     const containerRef = useRef(null);
 
@@ -77,8 +78,12 @@ const Canvas = () => {
     // Load project
     useEffect(() => {
         if (!editor || !project?.gjsData) return;
+        editor.loadProjectData(project.gjsData)
 
-        editor.loadProjectData(project.gjsData);
+        const fonts = project.fonts || [];
+        fonts.forEach((font) => {
+            loadGoogleFont(editor, font);
+        })
     }, [editor, project?.gjsData]);
 
 
@@ -93,6 +98,7 @@ const Canvas = () => {
                     onClose={() => setSelectedType(null)}
                     project={project}
                     selectedComponent={selectedComponent}
+                    updateFont={updateFont}
                 />
             )}
         </div>

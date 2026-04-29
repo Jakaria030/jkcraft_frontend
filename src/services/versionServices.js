@@ -14,3 +14,8 @@ export const updateTheme = async (id, data) => {
     const res = await api.put(`/versions/${id}/theme`, data);
     return res.data;
 };
+
+export const updateFont = async (id, data) => {
+    const res = await api.put(`/versions/${id}/font`, data);
+    return res.data;
+};

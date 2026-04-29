@@ -145,7 +145,7 @@ const MENU_BUTTON = {
     ],
 };
 
-const ToolbarModal = ({ type, onClose, project, selectedComponent }) => {
+const ToolbarModal = ({ type, onClose, project, selectedComponent, updateFont }) => {
     const [activeModal, setActiveModal] = useState(null);
 
     const menus = MENU_BUTTON[type] || [];
@@ -182,6 +182,7 @@ const ToolbarModal = ({ type, onClose, project, selectedComponent }) => {
                     onClose={() => setActiveModal(null)}
                     theme={project?.theme}
                     selectedComponent={selectedComponent}
+                    updateFont={updateFont}
                 />
             )}
         </>
