@@ -1,6 +1,7 @@
 import { FiX } from "react-icons/fi";
 import BlockElements from "./drawer/BlockElements";
 import ThemeTypes from "./drawer/ThemeTypes";
+import SEO from "./drawer/SEO";
 
 const Drawer = ({ activePanel, onActivePanel }) => {
     return (
@@ -80,16 +81,14 @@ const Drawer = ({ activePanel, onActivePanel }) => {
                 {activePanel === "seo" && (
                     <div>
                         <div className="flex items-center justify-between border-b border-gray-200 p-4">
-                            <h2 className="font-semibold">Add Settings</h2>
-                            <button
-                                onClick={() =>
-                                    onActivePanel(null)
-                                }
-                                className="cursor-pointer">
+                            <h2 className="font-semibold">Add SEO</h2>
+                            <button onClick={() => onActivePanel(null)}>
                                 <FiX size={24} />
                             </button>
                         </div>
-                        <p className="text-sm text-gray-500 p-4">Settings list here...</p>
+
+                        {/* SEO */}
+                        <SEO />
                     </div>
                 )}
 
