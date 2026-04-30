@@ -15,7 +15,7 @@ const SEO = () => {
         const doc = editor.Canvas.getDocument();
 
         // Title
-        if (seo.title) {
+        if (seo?.title) {
             doc.title = seo.title;
         }
 
@@ -28,7 +28,7 @@ const SEO = () => {
             doc.head.appendChild(metaDesc);
         }
 
-        metaDesc.setAttribute("content", seo.description || "");
+        metaDesc.setAttribute("content", seo?.description || "");
 
         // Keywords
         let metaKey = doc.querySelector('meta[name="keywords"]');
@@ -39,7 +39,7 @@ const SEO = () => {
             doc.head.appendChild(metaKey);
         }
 
-        metaKey.setAttribute("content", seo.keywords || "");
+        metaKey.setAttribute("content", seo?.keywords || "");
 
         setSeoData({ ...seo })
     };
