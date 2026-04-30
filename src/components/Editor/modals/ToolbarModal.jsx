@@ -190,6 +190,7 @@ const ToolbarModal = ({ type, onClose, project, selectedComponent, updateFont })
             {activeModal === "edit-box" && (
                 <EditBoxModal
                     onClose={() => setActiveModal(null)}
+                    selectedComponent={selectedComponent}
                 />
             )}
         </>
