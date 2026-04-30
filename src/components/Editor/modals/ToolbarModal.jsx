@@ -11,6 +11,7 @@ import { LuMapPinned } from "react-icons/lu";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import EditTextModal from "./EditTextModal";
 import { useState } from "react";
+import EditBoxModal from "./EditBoxModal";
 
 const MENU_BUTTON = {
     "text": [
@@ -120,7 +121,7 @@ const MENU_BUTTON = {
 
     "my-container": [
         {
-            id: "edit-container",
+            id: "edit-box",
             label: "Edit Container",
             icon: <TbLayoutGrid size={16} />,
         },
@@ -133,7 +134,7 @@ const MENU_BUTTON = {
 
     "my-div": [
         {
-            id: "edit-div",
+            id: "edit-box",
             label: "Edit Div",
             icon: <FiBox size={16} />,
         },
@@ -183,6 +184,12 @@ const ToolbarModal = ({ type, onClose, project, selectedComponent, updateFont })
                     theme={project?.theme}
                     selectedComponent={selectedComponent}
                     updateFont={updateFont}
+                />
+            )}
+
+            {activeModal === "edit-box" && (
+                <EditBoxModal
+                    onClose={() => setActiveModal(null)}
                 />
             )}
         </>
