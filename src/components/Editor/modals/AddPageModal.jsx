@@ -31,7 +31,7 @@ const AddPageModal = ({ onClose, onSubmit, pages, renamePage }) => {
     const handleSubmit = () => {
         if (!name || !slug || error) return;
 
-        onSubmit({ name, slug });
+        onSubmit({ name, slug }, renamePage?.id);
 
         onClose();
     };

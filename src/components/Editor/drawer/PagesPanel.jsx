@@ -62,27 +62,31 @@ const PagesPanel = ({ showAddPageModal, setShowAddPageModal }) => {
     };
 
     // Handle add page
-    const handleAddPage = ({ name, slug }) => {
+    const handleAddPage = ({ name, slug }, renamePageId = null) => {
         if (!editor) return;
 
         const pm = editor.Pages;
 
-        // create new page
-        const newPage = pm.add({
-            name,
-            slug,
-        });
+        if (renamePageId) {
+            const page = pm.get(renamePageId);
+            if (page) {
+                page.set("name", name);
+                page.set("slug", slug);
+                // editor.trigger("page:add");
+            }
+        } else {
+            // create new page
+            const newPage = pm.add({
+                name,
+                slug,
+            });
 
-        // select new page
-        pm.select(newPage.getId());
+            // select new page
+            pm.select(newPage.getId());
+        }
 
         // update local state
         loadPages();
-    };
-
-    // Handle edit page
-    const handleEditPage = () => {
-
     };
 
     useEffect(() => {
