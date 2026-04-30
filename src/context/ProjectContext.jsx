@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { getCurrentVersionProject, updateCurrentVersionProject, updateFont, updateTheme } from "../services/versionServices";
+import { getCurrentVersionProject, updateCurrentVersionProject, updateFont, updateSEO, updateTheme } from "../services/versionServices";
 import { debounce } from "../utils/debounce";
 import { redoProjectState, undoProjectState } from "../services/stateServices";
 
@@ -56,6 +56,14 @@ export const ProjectProvider = ({ projectId, children }) => {
         }
     };
 
+    const handleUpdateSEO = async (data) => {
+        try {
+            await updateSEO(projectId, data);
+        } catch (err) {
+            console.error(err?.response?.data?.message);
+        }
+    };
+
     // Handle undo 
     const handleUndo = async () => {
         try {
@@ -91,6 +99,7 @@ export const ProjectProvider = ({ projectId, children }) => {
             handleUndo,
             handleRedo,
             updateFont: handleUpdateFont,
+            updateSEO: handleUpdateSEO,
         }}>
             {children}
         </ProjectContext.Provider>

@@ -4,10 +4,17 @@ import ThemeTypes from "./drawer/ThemeTypes";
 import SEO from "./drawer/SEO";
 import PagesPanel from "./drawer/PagesPanel";
 import { useState } from "react";
+import { useEditor } from "../../context/EditorContext";
 
 
 const Drawer = ({ activePanel, onActivePanel }) => {
     const [showAddPageModal, setShowAddPageModal] = useState(false);
+    const { editor } = useEditor();
+
+    let pageId = null;
+    if (editor) {
+        pageId = editor.Pages.getSelected().getId();
+    }
 
     return (
         <div
@@ -105,7 +112,7 @@ const Drawer = ({ activePanel, onActivePanel }) => {
                         </div>
 
                         {/* SEO */}
-                        <SEO />
+                        <SEO pageId={pageId} />
                     </div>
                 )}
 

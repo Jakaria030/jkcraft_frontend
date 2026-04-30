@@ -72,7 +72,6 @@ const PagesPanel = ({ showAddPageModal, setShowAddPageModal }) => {
             if (page) {
                 page.set("name", name);
                 page.set("slug", slug);
-                // editor.trigger("page:add");
             }
         } else {
             // create new page

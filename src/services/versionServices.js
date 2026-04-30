@@ -19,3 +19,8 @@ export const updateFont = async (id, data) => {
     const res = await api.put(`/versions/${id}/font`, data);
     return res.data;
 };
+
+export const updateSEO = async (id, data) => {
+    const res = await api.put(`/versions/${id}/seo`, data);
+    return res.data;
+};

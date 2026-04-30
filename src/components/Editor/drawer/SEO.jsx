@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useEditor } from "../../../context/EditorContext";
 import { useProject } from "../../../context/ProjectContext";
 
-const SEO = () => {
+const SEO = ({ pageId }) => {
     const { editor } = useEditor();
-    const { project, saveProject, isSaving } = useProject();
+    const { project, saveProject, updateSEO } = useProject();
+    const [isSaving, setIsSaving] = useState(false);
     const [seoData, setSeoData] = useState({
+        id: pageId,
         title: "",
         description: "",
         keywords: "",
@@ -44,18 +46,19 @@ const SEO = () => {
         setSeoData({ ...seo })
     };
 
-
     // Handle SEO Submit
     const handleSubmit = async () => {
         if (!editor) return;
+        setIsSaving(true);
 
-        const data = editor.getProjectData();
-        data.seo = seoData;
+        const seo = { ...seoData, id: pageId }
+
+        setSeoData(seo);
 
         try {
-            await saveProject({ gjsData: data });
-        } catch (err) {
-            console.log(err);
+            await updateSEO({ seo: seoData });
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -63,8 +66,12 @@ const SEO = () => {
     useEffect(() => {
         if (!editor || !project) return;
 
-        applySEO(editor, project.gjsData?.seo);
-    }, [project]);
+        const seo = project?.seo.find(seo => seo.id === pageId);
+
+        if (!seo) return;
+
+        applySEO(editor, seo);
+    }, [pageId]);
 
     return (
         <div className="px-4 py-2 space-y-3">
